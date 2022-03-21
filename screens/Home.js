@@ -18,7 +18,7 @@ const Home = () => {
 
       <Text>What would you like to do?</Text>
 
-      <View style={{marginBottom: 60}}>
+      <View style={{marginBottom: 80}}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
           <View style={styles.buttonStyle}>
@@ -40,7 +40,7 @@ const Home = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
           <View style={styles.buttonStyle}>
-            <View style={{ right: 15 }}>
+            <View style={{ right: 10 }}>
               <AntDesign name="message1" size={24} color="white" />
             </View>
             <Text style={{ color: "white" }}>Message</Text>
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "white",
     backgroundColor: Colors.primary,
-    width: 125,
-    height: 45,
+    width: 130,
+    height: 58,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 1,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
       justifyContent: "space-around",
       alignItems: "center",
       marginBottom: 15,
-      width: 350
+      width: 350,
   },
   bottomContainer:{
     flexDirection: "row",

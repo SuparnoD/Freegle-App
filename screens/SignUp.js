@@ -12,7 +12,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
+import { authentication } from "../firebase/firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Colors } from "../constants/Colors";
+import Login from "./Login";
 
 const SignUp = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -73,26 +76,36 @@ const SignUp = ({ navigation }) => {
       setConfirmPWBorder("red");
       setConfirmPWIcon("error-outline");
     }
-
-    if (!error) {
-      console.log(`${name} \n${email} \n${password} \n`);
-    }
   };
+
+  if(!error) {
+    createUserWithEmailAndPassword(authentication, email, password)
+        .then((re) => {
+            console.log(re);
+        })
+        .catch((re) => {
+            console.log(re);
+        })
+        navigation.navigate(Login);
+  }
 
   return (
     <View style={styles.container}>
+
       <Text style={styles.header}>Sign Up for{"\n"} Freegle!</Text>
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>Full Name</Text>
       </View>
       <View style={styles.mainContainer}>
         <View style={{ ...styles.inputContainer, borderColor: nameBorder }}>
+          <View style={{flexDirection: "row", width: 250}}>
           <TextInput
             style={styles.input}
             onChangeText={(newText) => setName(newText)}
           />
-          <View style={{ marginRight: 5, left: 30 }}>
+          <View style={{ marginRight: 5, top: 15}}>
             <Ionicons name="person" size={24} color="grey" />
+          </View>
           </View>
         </View>
         <View style={{ justifyContent: "center", left: 10 }}>
@@ -105,16 +118,19 @@ const SignUp = ({ navigation }) => {
       </View>
       <View style={styles.mainContainer}>
         <View style={{ ...styles.inputContainer, borderColor: emailBorder }}>
+        <View style={{flexDirection: "row", width: 250}}>
           <TextInput
+            //value={email}
             style={styles.input}
             onChangeText={(newText) => setEmail(newText)}
           />
-          <View style={{ marginRight: 5, left: 30 }}>
+          <View style={{ marginRight: 5, top: 15 }}>
             <MaterialCommunityIcons
               name="email-outline"
               size={24}
               color="grey"
             />
+          </View>
           </View>
         </View>
         <View style={{ justifyContent: "center", left: 10 }}>
@@ -131,11 +147,13 @@ const SignUp = ({ navigation }) => {
           <View
             style={{ ...styles.inputContainer, borderColor: passwordBorder }}
           >
+            <View style={{flexDirection: "row", width: 250}}>
             <TextInput
               style={styles.input}
+              //value={password}
               onChangeText={(newText) => setPassword(newText)}
             />
-            <View style={{ marginRight: 5, left: 30 }}>
+            <View style={{ marginRight: 5, top: 15 }}>
               <Feather
                 name="eye"
                 size={24}
@@ -145,6 +163,7 @@ const SignUp = ({ navigation }) => {
                 }}
               />
             </View>
+          </View>
           </View>
           <View style={{ justifyContent: "center", left: 10 }}>
             <MaterialIcons
@@ -159,12 +178,13 @@ const SignUp = ({ navigation }) => {
           <View
             style={{ ...styles.inputContainer, borderColor: passwordBorder }}
           >
+            <View style={{flexDirection: "row", width: 250}}>
             <TextInput
               style={styles.input}
               secureTextEntry={true}
               onChangeText={(newText) => setPassword(newText)}
             />
-            <View style={{ marginRight: 5, left: 30 }}>
+            <View style={{ marginRight: 5, top: 15 }}>
               <Feather
                 name="eye-off"
                 size={24}
@@ -174,6 +194,7 @@ const SignUp = ({ navigation }) => {
                 }}
               />
             </View>
+          </View>
           </View>
           <View style={{ justifyContent: "center", left: 10 }}>
             <MaterialIcons
@@ -193,11 +214,12 @@ const SignUp = ({ navigation }) => {
           <View
             style={{ ...styles.inputContainer, borderColor: confirmPWBorder }}
           >
+            <View style={{flexDirection: "row", width: 250}}>
             <TextInput
               style={styles.input}
               onChangeText={(newText) => setConfirmPW(newText)}
             />
-            <View style={{ marginRight: 5, left: 30 }}>
+            <View style={{ marginRight: 5, top: 15 }}>
               <Feather
                 name="eye"
                 size={24}
@@ -207,6 +229,7 @@ const SignUp = ({ navigation }) => {
                 }}
               />
             </View>
+          </View>
           </View>
           <View style={{ justifyContent: "center", left: 10 }}>
             <MaterialIcons
@@ -221,12 +244,13 @@ const SignUp = ({ navigation }) => {
           <View
             style={{ ...styles.inputContainer, borderColor: confirmPWBorder }}
           >
+            <View style={{flexDirection: "row", width: 250}}>
             <TextInput
               style={styles.input}
               secureTextEntry={true}
               onChangeText={(newText) => setConfirmPW(newText)}
             />
-            <View style={{ marginRight: 5, left: 30 }}>
+            <View style={{ marginRight: 5, top: 15 }}>
               <Feather
                 name="eye-off"
                 size={24}
@@ -236,6 +260,7 @@ const SignUp = ({ navigation }) => {
                 }}
               />
             </View>
+          </View>
           </View>
           <View style={{ justifyContent: "center", left: 10 }}>
             <MaterialIcons
@@ -251,7 +276,9 @@ const SignUp = ({ navigation }) => {
         <TouchableOpacity
           style={styles.button}
           color={Colors.primary}
-          onPress={() => onClick()}
+          onPress={() => {
+            onClick()
+          }}
         >
           <Text style={styles.signUpText}>SIGN UP</Text>
         </TouchableOpacity>
@@ -313,10 +340,10 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   input: {
-    right: 35,
+    right: 0,
     height: 40,
     margin: 10,
-    width: "50%",
+    width: "80%",
   },
   buttonContainer: {
     paddingTop: 25,
