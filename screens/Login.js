@@ -1,22 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
+import { AuthContext } from "../store/auth-context";
 import { Colors } from "../constants/Colors";
+import { login } from "../util/auth";
 
 const Login = ({ navigation }) => {
+  const authCtx = useContext(AuthContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [viewPassword, setViewPassword] = useState(false);
+
+  async function onClick() {
+    try {
+      const token = await login(email, password);
+      authCtx.authenticate(token);
+      navigation.navigate("Home")
+    } catch (error) {
+      alert("Incorrect Credentials")
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -30,11 +44,7 @@ const Login = ({ navigation }) => {
           onChangeText={(newText) => setEmail(newText)}
         />
         <View style={{ marginRight: 5 }}>
-          <MaterialCommunityIcons
-            name="email-outline"
-            size={24}
-            color={Colors.primary}
-          />
+          <MaterialCommunityIcons name="email-outline" size={24} color="grey" />
         </View>
       </View>
       <View style={styles.labelContainer}>
@@ -50,7 +60,7 @@ const Login = ({ navigation }) => {
             <Feather
               name="eye"
               size={24}
-              color={Colors.primary}
+              color="grey"
               onPress={() => {
                 setViewPassword(false);
               }}
@@ -68,7 +78,7 @@ const Login = ({ navigation }) => {
             <Feather
               name="eye-off"
               size={24}
-              color={Colors.primary}
+              color="grey"
               onPress={() => {
                 setViewPassword(true);
               }}
@@ -89,7 +99,7 @@ const Login = ({ navigation }) => {
           style={styles.button}
           color={Colors.primary}
           onPress={() => {
-            alert(`Email: ${email} \nPassword: ${password}`);
+            onClick();
           }}
         >
           <Text style={styles.loginText}>LOG IN</Text>
@@ -161,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     borderWidth: 1.5,
-    borderColor: Colors.primary,
+    borderColor: "grey",
     height: 40,
     borderRadius: 15,
     margin: 10,
