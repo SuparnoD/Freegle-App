@@ -41,7 +41,6 @@ const SignUp = ({ navigation }) => {
     try {
       const token = await createUser(email, password);
       authCtx.authenticate(token);
-      navigation.navigate("Home");
     } catch (error) {
     }
   }

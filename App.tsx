@@ -1,28 +1,38 @@
-import * as React from "react";
+import { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp";
-import AuthContextProvider from "./store/auth-context";
+import UserIcon from "./components/UserIcon";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
 const Stack = createNativeStackNavigator();
 
+// unauthenticated stack
 function AuthStack() {
   return (
+    <Stack.Navigator
+      screenOptions={{
+        headerTitle: "",
+        headerTransparent: true,
+        headerRight: () => {
+          return <UserIcon />;
+        },
+      }}
+    >
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+    </Stack.Navigator>
+  );
+}
+
+// authenticated stack
+function AuthenticatedStack() {
+  return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={SignUp}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
+    <Stack.Screen
       name="Home"
       component={Home}
       options={{ headerShown: false }}
@@ -31,26 +41,21 @@ function AuthStack() {
   );
 }
 
-function AuthenticatedStack() {
-  return (
-    <Stack.Screen
-      name="Home"
-      component={Home}
-      options={{ headerShown: false }}
-    />
-  );
-}
-
+// stack is rendered depending on whether a user is authenticated or not
 function Navigation() {
+  const authCtx = useContext(AuthContext);
+
   return (
-    <AuthContextProvider>
-      <NavigationContainer>
-        <AuthStack />
-      </NavigationContainer>
-    </AuthContextProvider>
+    <NavigationContainer>
+      {!authCtx.isAuthenticated ? <AuthStack /> : <AuthenticatedStack />}
+    </NavigationContainer>
   );
 }
 
 export default function App() {
-  return <Navigation />;
+  return (
+    <AuthContextProvider>
+      <Navigation />
+    </AuthContextProvider>
+  );
 }
