@@ -18,26 +18,8 @@ const Home = () => {
 
       <Text>What would you like to do?</Text>
 
-      <View style={{marginBottom: 80}}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <View style={styles.buttonStyle}>
-            <View style={{ right: 15 }}>
-              <AntDesign name="search1" size={28} color="white" />
-            </View>
-            <Text style={{ color: "white" }}>Browse</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <View style={styles.buttonStyle}>
-            <View style={{ right: 25 }}>
-              <Ionicons name="ios-add-circle-outline" size={28} color="white" />
-            </View>
-            <Text style={{ color: "white" }}>Post</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.buttonContainer}>
+      <View style={{marginBottom: 0}}>
+
         <TouchableOpacity style={styles.button}>
           <View style={styles.buttonStyle}>
             <View style={{ right: 10 }}>
@@ -54,9 +36,10 @@ const Home = () => {
             <Text style={{ color: "white" }}>Map</Text>
           </View>
         </TouchableOpacity>
-      </View>
+
       </View>
 
+      <View style={{position: 'absolute', bottom: 15,}}>
       <View style={styles.logoContainer}>
       <Image source={require("../assets/bytemark.png")} />
       <Image source={require("../assets/mythic-beasts.png")} />
@@ -66,14 +49,6 @@ const Home = () => {
         Freegle is registered as a charity with HMRC (ref. XT32865) {"\n"}{" "}
         Kindly supported by Bytemark & Mythic Beasts
       </Text>
-
-      <View style={styles.bottomContainer}>
-          <Text style={styles.bottomText}>About</Text>
-          <Text style={styles.bottomText}>Terms</Text>
-          <Text style={styles.bottomText}>Privacy</Text>
-          <Text style={styles.bottomText}>Disclaimer</Text>
-          <Text style={styles.bottomText}>Donate</Text>
-          <Text style={styles.bottomText}>Contact</Text>
       </View>
     </View>
   );
@@ -95,9 +70,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     margin: 20,
-  },
-  buttonContainer: {
-    flexDirection: "row",
   },
   button: {
     justifyContent: "center",
@@ -123,7 +95,6 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       justifyContent: "space-around",
       alignItems: "center",
-      marginBottom: 15,
       width: 350,
   },
   bottomContainer:{

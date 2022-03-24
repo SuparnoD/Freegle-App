@@ -26,7 +26,6 @@ const Login = ({ navigation }) => {
     try {
       const token = await login(email, password);
       authCtx.authenticate(token);
-      navigation.navigate("Home")
     } catch (error) {
       alert("Incorrect Credentials")
     }
