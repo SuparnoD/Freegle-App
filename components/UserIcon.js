@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const UserIcon = props => {
   return (
-    <View>
+    <View style={{marginRight: 25, marginTop: 5}}>
       <TouchableOpacity style={styles.iconBG} onPress={props.onClick}>
       <FontAwesome name="user-o" size={24} color="white" />
       </TouchableOpacity>
