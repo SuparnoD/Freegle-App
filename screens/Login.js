@@ -33,7 +33,8 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Log In to{"\n"} Freegle!</Text>
+      <Text style={styles.header}>Log In to</Text> 
+      <Text style={[styles.header, {marginBottom: 30, color: Colors.primary, fontFamily: 'lato-italic'}]}>FREEGLE!</Text>
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>Email</Text>
       </View>
@@ -88,7 +89,7 @@ const Login = ({ navigation }) => {
       <View style={styles.resetContainer}>
         <Text
           style={styles.resetText}
-          onPress={() => alert("Pattern up your memory then")}
+          onPress={() => {}}
         >
           Forgot Password?
         </Text>
@@ -106,15 +107,15 @@ const Login = ({ navigation }) => {
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View
-          style={{ width: 100, height: 1, backgroundColor: Colors.primary }}
+          style={{ width: 80, height: 1, backgroundColor: Colors.primary }}
         />
         <View>
-          <Text style={{ margin: 10, width: 100, textAlign: "center" }}>
+          <Text style={{ margin: 10, width: 150, textAlign: "center", fontFamily: 'lato-light', fontSize: 18 }}>
             or sign in with
           </Text>
         </View>
         <View
-          style={{ width: 100, height: 1, backgroundColor: Colors.primary }}
+          style={{ width: 80, height: 1, backgroundColor: Colors.primary }}
         />
       </View>
       <View style={styles.iconContainer}>
@@ -132,7 +133,7 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.registerContainer}>
-        <Text>Don't have an account?</Text>
+        <Text style={{fontSize: 18, fontFamily: 'lato-light'}}>Don't have an account?</Text>
         <Text
           style={styles.registerText}
           onPress={() => {
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    padding: 25,
+    fontFamily: 'lato-regular'
   },
   labelContainer: {
     alignSelf: "flex-start",
@@ -163,6 +164,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 15,
+    fontFamily: 'lato-regular',
   },
   inputContainer: {
     flexDirection: "row",
@@ -185,30 +187,33 @@ const styles = StyleSheet.create({
     right: 90,
   },
   resetText: {
-    fontSize: 12,
+    fontSize: 14,
+    fontFamily: 'lato-italic'
   },
   buttonContainer: {
     paddingTop: 50,
     paddingBottom: 25,
   },
   button: {
-    alignItems: "center",
     justifyContent: "center",
-    borderRadius: 15,
+    alignItems: "center",
+    borderRadius: 25,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: Colors.primary,
     backgroundColor: Colors.primary,
-    width: 135,
-    height: 40,
+    width: 250,
+    height: 50,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 1,
     shadowRadius: 1,
     elevation: 5,
+    margin: 12,
   },
   loginText: {
     fontSize: 20,
     color: "white",
+    fontFamily: 'lato-regular'
   },
   iconContainer: {
     margin: 10,
@@ -230,10 +235,9 @@ const styles = StyleSheet.create({
     top: 30,
   },
   registerText: {
-    fontWeight: "bold",
-    fontStyle: "italic",
     color: Colors.primary,
     fontSize: 20,
+    fontFamily: 'lato-bold-italic',
     margin: 5,
   },
 });
