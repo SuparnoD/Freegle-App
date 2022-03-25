@@ -11,6 +11,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 
 import { AuthContext } from "../store/auth-context";
 import { Colors } from "../constants/Colors";
@@ -18,78 +20,148 @@ import { login } from "../util/auth";
 
 const Login = ({ navigation }) => {
   const authCtx = useContext(AuthContext);
+
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [viewPassword, setViewPassword] = useState(false);
 
+  const [borderColor, setBorderColor] = useState("grey");
+  const [error, setError] = useState(false);
+
+  // execute upon click of 'Login' button
   async function onClick() {
     try {
+      // API for login auth
       const token = await login(email, password);
       authCtx.authenticate(token);
     } catch (error) {
-      alert("Incorrect Credentials")
+      // incorrect credentials
+      setError(true);
+      setBorderColor("red");
     }
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Log In to{"\n"} Freegle!</Text>
+      <View style={{flexDirection: "row"}}>
+        <View style={{position: "absolute", right: 200}}>
+      <Ionicons name="chevron-back-sharp" size={50} color={Colors.primary} onPress={() => navigation.goBack()} />
+      </View>
+      <Text style={styles.header}>Log In to</Text>
+      </View>
+      <Text
+        style={[
+          styles.header,
+          {
+            marginBottom: 30,
+            color: Colors.primary,
+            fontFamily: "lato-italic",
+          },
+        ]}
+      >
+        FREEGLE!
+      </Text>
+
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>Email</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          onChangeText={(newText) => setEmail(newText)}
-        />
-        <View style={{ marginRight: 5 }}>
-          <MaterialCommunityIcons name="email-outline" size={24} color="grey" />
+
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ ...styles.inputContainer, borderColor: borderColor }}>
+          <View style={{ flexDirection: "row", width: 250 }}>
+            <TextInput
+              //value={email}
+              style={styles.input}
+              onChangeText={(newText) => setEmail(newText)}
+            />
+            <View style={{ marginRight: 5, top: 15 }}>
+              <MaterialCommunityIcons
+                name="email-outline"
+                size={24}
+                color="grey"
+              />
+            </View>
+          </View>
         </View>
+        { error ? <View style={{ justifyContent: "center", left: 10 }}>
+            <MaterialIcons
+              name="error-outline"
+              size={24}
+              color={borderColor}
+            />
+          </View> : <View></View>}
       </View>
+
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>Password</Text>
       </View>
+
       {viewPassword ? (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            onChangeText={(newText) => setPassword(newText)}
-          />
-          <View style={{ marginRight: 5 }}>
-            <Feather
-              name="eye"
-              size={24}
-              color="grey"
-              onPress={() => {
-                setViewPassword(false);
-              }}
-            />
+        <View style={{flexDirection: "row"}}>
+          <View
+            style={{ ...styles.inputContainer, borderColor: borderColor }}
+          >
+            <View style={{ flexDirection: "row", width: 250 }}>
+              <TextInput
+                style={styles.input}
+                //value={password}
+                onChangeText={(newText) => setPassword(newText)}
+              />
+              <View style={{ marginRight: 5, top: 15 }}>
+                <Feather
+                  name="eye"
+                  size={24}
+                  color="grey"
+                  onPress={() => {
+                    setViewPassword(false);
+                  }}
+                />
+              </View>
+            </View>
           </View>
+          { error ? <View style={{ justifyContent: "center", left: 10 }}>
+            <MaterialIcons
+              name="error-outline"
+              size={24}
+              color={borderColor}
+            />
+          </View> : <View></View>}
         </View>
       ) : (
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            secureTextEntry={true}
-            onChangeText={(newText) => setPassword(newText)}
-          />
-          <View style={{ marginRight: 5 }}>
-            <Feather
-              name="eye-off"
-              size={24}
-              color="grey"
-              onPress={() => {
-                setViewPassword(true);
-              }}
-            />
+        <View style={{flexDirection: "row"}}>
+          <View
+            style={{ ...styles.inputContainer, borderColor: borderColor }}
+          >
+            <View style={{ flexDirection: "row", width: 250 }}>
+              <TextInput
+                style={styles.input}
+                secureTextEntry={true}
+                onChangeText={(newText) => setPassword(newText)}
+              />
+              <View style={{ marginRight: 5, top: 15 }}>
+                <Feather
+                  name="eye-off"
+                  size={24}
+                  color="grey"
+                  onPress={() => {
+                    setViewPassword(true);
+                  }}
+                />
+              </View>
+            </View>
           </View>
+          { error ? <View style={{ justifyContent: "center", left: 10 }}>
+            <MaterialIcons
+              name="error-outline"
+              size={24}
+              color={borderColor}
+            />
+          </View> : <View></View>}
         </View>
       )}
+
       <View style={styles.resetContainer}>
-        <Text
-          style={styles.resetText}
-          onPress={() => alert("Pattern up your memory then")}
-        >
+        <Text style={styles.resetText} onPress={() => {}}>
           Forgot Password?
         </Text>
       </View>
@@ -106,15 +178,23 @@ const Login = ({ navigation }) => {
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View
-          style={{ width: 100, height: 1, backgroundColor: Colors.primary }}
+          style={{ width: 80, height: 1, backgroundColor: Colors.primary }}
         />
         <View>
-          <Text style={{ margin: 10, width: 100, textAlign: "center" }}>
+          <Text
+            style={{
+              margin: 10,
+              width: 150,
+              textAlign: "center",
+              fontFamily: "lato-light",
+              fontSize: 18,
+            }}
+          >
             or sign in with
           </Text>
         </View>
         <View
-          style={{ width: 100, height: 1, backgroundColor: Colors.primary }}
+          style={{ width: 80, height: 1, backgroundColor: Colors.primary }}
         />
       </View>
       <View style={styles.iconContainer}>
@@ -132,7 +212,9 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.registerContainer}>
-        <Text>Don't have an account?</Text>
+        <Text style={{ fontSize: 18, fontFamily: "lato-light" }}>
+          Don't have an account?
+        </Text>
         <Text
           style={styles.registerText}
           onPress={() => {
@@ -155,7 +237,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    padding: 25,
+    fontFamily: "lato-regular",
   },
   labelContainer: {
     alignSelf: "flex-start",
@@ -163,6 +245,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 15,
+    fontFamily: "lato-regular",
   },
   inputContainer: {
     flexDirection: "row",
@@ -176,39 +259,44 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   input: {
+    right: 0,
     height: 40,
     margin: 10,
-    width: "50%",
+    width: "80%",
+    fontFamily: 'lato-regular'
   },
   resetContainer: {
     alignSelf: "flex-end",
     right: 90,
   },
   resetText: {
-    fontSize: 12,
+    fontSize: 14,
+    fontFamily: "lato-italic",
   },
   buttonContainer: {
     paddingTop: 50,
     paddingBottom: 25,
   },
   button: {
-    alignItems: "center",
     justifyContent: "center",
-    borderRadius: 15,
+    alignItems: "center",
+    borderRadius: 25,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: Colors.primary,
     backgroundColor: Colors.primary,
-    width: 135,
-    height: 40,
+    width: 250,
+    height: 50,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 1,
     shadowRadius: 1,
     elevation: 5,
+    margin: 12,
   },
   loginText: {
     fontSize: 20,
     color: "white",
+    fontFamily: "lato-regular",
   },
   iconContainer: {
     margin: 10,
@@ -230,10 +318,9 @@ const styles = StyleSheet.create({
     top: 30,
   },
   registerText: {
-    fontWeight: "bold",
-    fontStyle: "italic",
     color: Colors.primary,
     fontSize: 20,
+    fontFamily: "lato-bold-italic",
     margin: 5,
   },
 });

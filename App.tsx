@@ -1,8 +1,10 @@
 import "react-native-gesture-handler";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
 
 import Home from "./screens/Home";
 import Login from "./screens/Login";
@@ -14,6 +16,23 @@ import { Colors } from "./constants/Colors";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
+
+// fetch fonts
+const fetchFonts = () => {
+  return Font.loadAsync({
+    // lato
+    'lato-black': require('./assets/fonts/Lato/Lato-Black.ttf'),
+    'lato-black-italic': require('./assets/fonts/Lato/Lato-BlackItalic.ttf'),
+    'lato-bold': require('./assets/fonts/Lato/Lato-Bold.ttf'),
+    'lato-bold-italic': require('./assets/fonts/Lato/Lato-BoldItalic.ttf'),
+    'lato-italic': require('./assets/fonts/Lato/Lato-Italic.ttf'),
+    'lato-light': require('./assets/fonts/Lato/Lato-Light.ttf'),
+    'lato-light-italic': require('./assets/fonts/Lato/Lato-LightItalic.ttf'),
+    'lato-regular': require('./assets/fonts/Lato/Lato-Regular.ttf'),
+    'lato-thin': require('./assets/fonts/Lato/Lato-Thin.ttf'),
+    'lato-thin-italic': require('./assets/fonts/Lato/Lato-ThinItalic.ttf'),
+  })
+}
 
 function DrawerNav() {
   return (
@@ -84,6 +103,17 @@ function Navigation() {
 }
 
 export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  if(!fontLoaded){
+    return (
+      <AppLoading
+      startAsync={fetchFonts}
+      onFinish={() => setFontLoaded(true)}
+      onError={console.warn} />
+    );
+  }
+
   return (
     <AuthContextProvider>
       <Navigation />
