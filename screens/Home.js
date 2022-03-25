@@ -13,18 +13,18 @@ const Home = () => {
         </Text>
       </View>
       <View style={{marginBottom: 10, bottom: 20}}>
-        <Text>What would you like to do?</Text>
+        <Text style={{fontFamily: 'lato-italic'}}>What would you like to do?</Text>
       </View>
 
       <View style={{ bottom: 20}}>
         <TouchableOpacity style={styles.button}>
           <View style={styles.buttonStyle}>
-            <Text style={{ color: "white" }}>POST</Text>
+            <Text style={{ color: "white", fontFamily: 'lato-regular', fontSize: 20 }}>POST</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button2}>
           <View style={styles.buttonStyle}>
-            <Text style={{ color: Colors.primary }}>BROWSE</Text>
+            <Text style={{ color: Colors.primary, fontFamily: 'lato-regular', fontSize: 20 }}>BROWSE</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -35,7 +35,7 @@ const Home = () => {
           <Image source={require("../assets/mythic-beasts.png")} />
         </View>
 
-        <Text style={{ textAlign: "center", fontSize: 12 }}>
+        <Text style={{ textAlign: "center", fontSize: 12, fontFamily: 'lato-regular' }}>
           Freegle is registered as a charity with HMRC (ref. XT32865) {"\n"}{" "}
           Kindly supported by Bytemark & Mythic Beasts
         </Text>
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
   heading: {
     textAlign: "center",
     fontSize: 18,
+    fontFamily: 'lato-regular'
   },
   logo: {
     margin: 20,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
     backgroundColor: Colors.primary,
     width: 250,
-    height: 58,
+    height: 50,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 1,
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
     backgroundColor: "white",
     width: 250,
-    height: 58,
+    height: 50,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 1,
