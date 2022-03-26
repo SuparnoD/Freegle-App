@@ -59,7 +59,7 @@ const Login = ({ navigation }) => {
           },
         ]}
       >
-        FREEGLE!
+        Freegle!
       </Text>
 
       <View style={styles.labelContainer}>

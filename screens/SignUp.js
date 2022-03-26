@@ -41,8 +41,7 @@ const SignUp = ({ navigation }) => {
     try {
       const token = await createUser(email, password);
       authCtx.authenticate(token);
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   async function onClick() {
@@ -84,7 +83,7 @@ const SignUp = ({ navigation }) => {
       setConfirmPWBorder("red");
       setConfirmPWIcon("error-outline");
     }
-  };
+  }
 
   if (!error) {
     signUpHandler();
@@ -92,7 +91,29 @@ const SignUp = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Sign Up for{"\n"} Freegle!</Text>
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ position: "absolute", right: 200 }}>
+          <Ionicons
+            name="chevron-back-sharp"
+            size={50}
+            color={Colors.primary}
+            onPress={() => navigation.goBack()}
+          />
+        </View>
+        <Text style={styles.header}>Sign Up for</Text>
+      </View>
+      <Text
+        style={[
+          styles.header,
+          {
+            marginBottom: 30,
+            color: Colors.primary,
+            fontFamily: "lato-italic",
+          },
+        ]}
+      >
+        Freegle!
+      </Text>
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>Full Name</Text>
       </View>
@@ -283,15 +304,19 @@ const SignUp = ({ navigation }) => {
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View
-          style={{ width: 100, height: 1, backgroundColor: Colors.primary }}
+          style={{ width: 80, height: 1, backgroundColor: Colors.primary }}
         />
         <View>
-          <Text style={{ margin: 10, width: 100, textAlign: "center" }}>
+          <Text style={{ margin: 10,
+              width: 150,
+              textAlign: "center",
+              fontFamily: "lato-light",
+              fontSize: 18, }}>
             already have an account?
           </Text>
         </View>
         <View
-          style={{ width: 100, height: 1, backgroundColor: Colors.primary }}
+          style={{ width: 80, height: 1, backgroundColor: Colors.primary }}
         />
       </View>
       <View style={styles.signInContainer}>
@@ -317,7 +342,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    padding: 25,
+    fontFamily: "lato-regular",
   },
   labelContainer: {
     alignSelf: "flex-start",
@@ -325,6 +350,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 15,
+    fontFamily: "lato-regular",
   },
   inputContainer: {
     flexDirection: "row",
@@ -342,6 +368,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 10,
     width: "80%",
+    fontFamily: 'lato-regular'
   },
   buttonContainer: {
     paddingTop: 25,
@@ -365,16 +392,17 @@ const styles = StyleSheet.create({
   signUpText: {
     fontSize: 20,
     color: "white",
+    fontFamily: "lato-regular",
   },
   signInContainer: {
     alignItems: "center",
     justifyContent: "center",
   },
   signInText: {
-    fontWeight: "bold",
-    fontStyle: "italic",
     color: Colors.primary,
     fontSize: 20,
+    fontFamily: "lato-bold-italic",
+    margin: 5,
   },
   mainContainer: {
     flexDirection: "row",
