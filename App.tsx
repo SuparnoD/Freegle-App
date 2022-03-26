@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import React, { useContext, useState } from "react";
+import { Image } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -12,6 +13,7 @@ import SignUp from "./screens/SignUp";
 import UserIcon from "./components/UserIcon";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { Feather } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from "./constants/Colors";
 
 const Stack = createNativeStackNavigator();
@@ -35,13 +37,19 @@ const fetchFonts = () => {
 }
 
 function DrawerNav() {
+  const authCtx = useContext(AuthContext);
+  
   return (
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
         headerTransparent: true,
         headerTitle: "",
         headerRight: () => {
-          return <UserIcon onClick={() => navigation.navigate("Login")} />;
+          if(!authCtx.isAuthenticated) {
+            return <UserIcon onClick={() => navigation.navigate("Login")}><FontAwesome name="user-o" size={24} color="white" /></UserIcon>;
+          } else {
+            return <UserIcon onClick={() => authCtx.logout()}><Image style={{flex: 1, resizeMode: 'contain'}} source={require('./assets/pakalu.png')} /></UserIcon>;
+          }
         },
         headerLeft: () => {
           return <Feather style={{ marginLeft: 25, marginTop: 5}} name="menu" size={30} color="black" onPress={() => {navigation.openDrawer()}} />

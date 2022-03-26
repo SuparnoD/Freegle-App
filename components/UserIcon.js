@@ -1,12 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { FontAwesome } from '@expo/vector-icons';
 
 const UserIcon = props => {
   return (
     <View style={{marginRight: 25, marginTop: 5}}>
       <TouchableOpacity style={styles.iconBG} onPress={props.onClick}>
-      <FontAwesome name="user-o" size={24} color="white" />
+        {props.children}
       </TouchableOpacity>
     </View>
   );
@@ -22,5 +21,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 25,
+    overflow: "hidden"
   },
 });
