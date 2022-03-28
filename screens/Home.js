@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 import { Colors } from "../constants/Colors";
 
-const Home = () => {
+const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -22,7 +22,7 @@ const Home = () => {
             <Text style={{ color: "white", fontFamily: 'lato-regular', fontSize: 20 }}>POST</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button2}>
+        <TouchableOpacity style={styles.button2} onPress={() => {navigation.navigate("BrowseScreen")}}>
           <View style={styles.buttonStyle}>
             <Text style={{ color: Colors.primary, fontFamily: 'lato-regular', fontSize: 20 }}>BROWSE</Text>
           </View>
