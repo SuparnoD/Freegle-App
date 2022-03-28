@@ -28,6 +28,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Freegle requires access to your photos in the case you wanted to post an offer",
+          "cameraPermisson": "Freegle requires access to your camera in the case you wanted to post an offer"
+        }
+      ]
+    ]
   }
 }

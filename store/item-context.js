@@ -1,23 +1,8 @@
 import { createContext, useReducer } from "react";
 
-const DUMMY_POSTS = [
-  {
-    title: "Logitech Z207 Speakers",
-    type: "offer",
-    quantity: 2,
-    description: "2 speakers for pc with bluetooth aswell blah blah",
-  },
-  {
-    title: "Lenovo IdeaPad",
-    type: "offer",
-    quantity: "1",
-    description: "a laptop?",
-  },
-];
-
 export const PostContext = createContext({
     posts: [],
-    addPost: ({ title, type, quantity, description }) => {},
+    addPost: ({ title, type, quantity, description, photo }) => {},
   });
   
   function postReducer(state, action) {
@@ -31,7 +16,7 @@ export const PostContext = createContext({
   }
   
   function PostContextProvider({ children }) {
-    const [postState, dispatch] = useReducer(postReducer, DUMMY_POSTS);
+    const [postState, dispatch] = useReducer(postReducer);
   
     function addPost(postData) {
       dispatch({ type: 'ADD', payload: postData });

@@ -1,9 +1,15 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { StyleSheet, Button, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import React, { useState } from "react";
+import {
+  launchCameraAsync,
+  useCameraPermissions,
+  PermissionStatus,
+} from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 
 import { Colors } from "../constants/Colors";
 import { storePost } from "../util/http";
+import ImagePicker from "../components/ImagePicker";
 
 const PostScreen = () => {
   const [photo, setPhoto] = useState("");
@@ -62,9 +68,7 @@ const PostScreen = () => {
         <View style={styles.header}>
           <Text style={styles.label}>Add Photos</Text>
         </View>
-        <View style={{justifyContent: "center", alignItems: "center"}}>
-        <AntDesign name="camerao" size={200} color="black" />
-        </View>
+        <ImagePicker />
       </View>
 
       <View style={styles.productContainer}>
