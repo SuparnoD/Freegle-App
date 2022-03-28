@@ -21,6 +21,7 @@ import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Colors } from "./constants/Colors";
+import PostScreen from "./screens/PostScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -42,43 +43,67 @@ const fetchFonts = () => {
   });
 };
 
-// function DrawerNav() {
-//   const authCtx = useContext(AuthContext);
-
-//   return (
-//     <Drawer.Navigator
-//       screenOptions={({ navigation }) => ({
-//         headerTransparent: true,
-//         headerTitle: "",
-//         headerRight: () => {
-//           if(!authCtx.isAuthenticated) {
-//             return <UserIcon onClick={() => navigation.navigate("Login")}><FontAwesome name="user-o" size={24} color="white" /></UserIcon>;
-//           } else {
-//             return <UserIcon onClick={() => authCtx.logout()}><Image style={{flex: 1, resizeMode: 'contain'}} source={require('./assets/pakalu.png')} /></UserIcon>;
-//           }
-//         },
-//         headerLeft: () => {
-//           return <Feather style={{ marginLeft: 25, marginTop: 5}} name="menu" size={30} color="black" onPress={() => {navigation.openDrawer()}} />
-//         },
-//         drawerContentStyle: {
-//           backgroundColor: "#e5f6df",
-//         },
-//         overlayColor: "rgba(0,0,0,0.5)",
-//       })}
-//     >
-//       <Drawer.Screen name="Home" component={Home} />
-//       <Drawer.Screen name="About" component={Home} />
-//       <Drawer.Screen name="Terms" component={Home} />
-//       <Drawer.Screen name="Privacy" component={Home} />
-//       <Drawer.Screen name="Disclaimers" component={Home} />
-//       <Drawer.Screen name="Donate" component={Home} />
-//       <Drawer.Screen name="Contact" component={Home} />
-//     </Drawer.Navigator>
-//   );
-// }
-
 // unauthenticated stack
 function AuthStack() {
+  const authCtx = useContext(AuthContext);
+
+  return (
+    <Stack.Navigator
+      screenOptions={({ navigation }) => ({
+        headerTransparent: true,
+        headerRight: () => {
+          return (
+            <UserIcon onClick={() => navigation.navigate("Login")}>
+              <FontAwesome name="user-o" size={24} color="white" />
+            </UserIcon>
+          );
+        },
+        headerLeft: () => {
+          return (
+            <Feather
+              style={{ marginLeft: 25, marginTop: 5 }}
+              name="menu"
+              size={30}
+              color="black"
+              onPress={() => {
+                navigation.openDrawer();
+              }}
+            />
+          );
+        },
+        drawerContentStyle: {
+          backgroundColor: "#e5f6df",
+        },
+        overlayColor: "rgba(0,0,0,0.5)",
+      })}
+    >
+      <Stack.Screen name="Home" component={Home} options={{ title: "" }} />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BrowseScreen"
+        component={BrowseScreen}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="PostScreen"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// authenticated stack
+function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
 
   return (
@@ -88,8 +113,17 @@ function AuthStack() {
         headerTitle: "",
         headerRight: () => {
           return (
-            <UserIcon onClick={() => navigation.navigate("Login")}>
-              <FontAwesome name="user-o" size={24} color="white" />
+            <UserIcon
+              onClick={() => {
+                authCtx.logout();
+                navigation.navigate("Home");
+              }}
+            >
+              <Image
+                style={{ flex: 1, resizeMode: "contain" }}
+                // API to fetch user profile image could be inserted here
+                source={require("./assets/pakalu.png")}
+              />
             </UserIcon>
           );
         },
@@ -118,59 +152,15 @@ function AuthStack() {
         options={{ headerTitle: "" }}
       />
       <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }}
+        name="BrowseScreen"
+        component={BrowseScreen}
+        options={{ title: "" }}
       />
-      <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-      <Stack.Screen name="BrowseScreen" component={BrowseScreen} />
-    </Stack.Navigator>
-  );
-}
-
-// authenticated stack
-function AuthenticatedStack() {
-  const authCtx = useContext(AuthContext);
-
-  return (
-    <Stack.Navigator
-      screenOptions={({ navigation }) => ({
-        headerTransparent: true,
-        headerTitle: "",
-        headerRight: () => {
-          return (
-            <UserIcon onClick={() => {
-              authCtx.logout();
-              navigation.navigate("Home")
-              }}>
-              <Image
-                style={{ flex: 1, resizeMode: "contain" }}
-                source={require("./assets/pakalu.png")}
-              />
-            </UserIcon>
-          );
-        },
-        headerLeft: () => {
-          return (
-            <Feather
-              style={{ marginLeft: 25, marginTop: 5 }}
-              name="menu"
-              size={30}
-              color="black"
-              onPress={() => {
-                navigation.openDrawer();
-              }}
-            />
-          );
-        },
-        drawerContentStyle: {
-          backgroundColor: "#e5f6df",
-        },
-        overlayColor: "rgba(0,0,0,0.5)",
-      })}
-    >
-      <Stack.Screen name="Home" component={Home} options={{headerTitle:""}}/>
-      <Stack.Screen name="BrowseScreen" component={BrowseScreen} />
+      <Stack.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{ title: "" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -238,7 +228,7 @@ function Navigation() {
     <NavigationContainer>
       <Drawer.Navigator
         drawerContent={(props) => <DrawerContent {...props} />}
-        screenOptions={{ headerShown: false, headerTitle: "" }}
+        screenOptions={{ headerShown: false }}
       >
         <Drawer.Screen
           name="Stack"

@@ -17,7 +17,7 @@ const Home = ({ navigation }) => {
       </View>
 
       <View style={{ bottom: 20}}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate("PostScreen")}}>
           <View style={styles.buttonStyle}>
             <Text style={{ color: "white", fontFamily: 'lato-regular', fontSize: 20 }}>POST</Text>
           </View>

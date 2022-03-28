@@ -3,7 +3,7 @@ import React from 'react'
 
 const BrowseScreen = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>BrowseScreen</Text>
     </View>
   )
@@ -11,4 +11,11 @@ const BrowseScreen = () => {
 
 export default BrowseScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+})
