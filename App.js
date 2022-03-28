@@ -18,6 +18,7 @@ import SignUp from "./screens/SignUp";
 import BrowseScreen from "./screens/BrowseScreen";
 import UserIcon from "./components/UserIcon";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import PostContextProvider from "./store/item-context";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Colors } from "./constants/Colors";
@@ -257,7 +258,9 @@ export default function App() {
 
   return (
     <AuthContextProvider>
+      <PostContextProvider>
       <Navigation />
+      </PostContextProvider>
     </AuthContextProvider>
   );
 }
