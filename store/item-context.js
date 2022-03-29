@@ -2,7 +2,7 @@ import { createContext, useReducer } from "react";
 
 export const PostContext = createContext({
     posts: [],
-    addPost: ({ title, type, quantity, description, photo }) => {},
+    addPost: ({ user, title, type, quantity, description, photo }) => {},
   });
   
   function postReducer(state, action) {

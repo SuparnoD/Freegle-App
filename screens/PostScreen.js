@@ -1,5 +1,15 @@
-import { StyleSheet, Button, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
-import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Image,
+} from "react-native";
+import React, { useState, useContext, useEffect } from "react";
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -9,10 +19,55 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { Colors } from "../constants/Colors";
 import { storePost } from "../util/http";
-import ImagePicker from "../components/ImagePicker";
+import { AuthContext } from "../store/auth-context";
 
 const PostScreen = () => {
+  /* ---     HANDLE CAMERA FUNCTION    --- */
+  const [pickedImage, setPickedImage] = useState();
+  const savedImages = [];
+
+  const [cameraPermissionInformation, requestPermission] =
+    useCameraPermissions();
+
+  async function verifyPermissions() {
+    if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
+      const persmissionRespone = await requestPermission();
+
+      return persmissionRespone.granted;
+    }
+
+    if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        "Insufficient Permission: you need to grant camera permission in your phone settings"
+      );
+      return false;
+    }
+    return true;
+  }
+
+  async function takeImageHandler() {
+    const hasPermission = await verifyPermissions();
+
+    if (!hasPermission) {
+      return;
+    }
+    const image = await launchCameraAsync({
+      // different configs available - check doc (expo image picker)
+    });
+    setPickedImage(image.uri);
+  }
+
+  let imagePreview = <Text>Nae Photo's Taken Yet</Text>;
+
+  if (pickedImage) {
+    imagePreview = <Image style={styles.image} source={{ uri: pickedImage }} />;
+    const postData = {
+      photo: pickedImage,
+    };
+  }
+  /* ---     HANDLE CAMERA FUNCTION    --- */
   const [photo, setPhoto] = useState("");
+  const [email, setEmail] = useState("");
   const [title, setTitle] = useState("");
   const [type, setType] = useState("offer");
   const [quantity, setQuantity] = useState(1);
@@ -22,6 +77,13 @@ const PostScreen = () => {
   const [wantedColor, setWantedColor] = useState("white");
   const [offerLabel, setOfferLabel] = useState("white");
   const [wantedLabel, setWantedLabel] = useState("grey");
+
+  const authCtx = useContext(AuthContext);
+  useEffect(() => {
+    setTimeout(() => {
+      setEmail(authCtx.email);
+    }, 1000)
+  });
 
   const offerClicked = () => {
     setType("offer");
@@ -40,23 +102,25 @@ const PostScreen = () => {
   };
 
   const qtyIncrementHandler = () => {
-    setQuantity(quantity+1)
+    setQuantity(quantity + 1);
   };
 
   const qtyDecrementHandler = () => {
     if (quantity === 1) {
     } else {
-      setQuantity(quantity-1);
+      setQuantity(quantity - 1);
     }
   };
 
-  function onclick(){
-    console.log(`Title: ${title} \nType: ${type}\nQty: ${quantity}\nDescription: ${description}`);
+  // execute if validation is successful - replace with your own API
+  function onclick() {
+    console.log(`user: ${email}\ntitle: ${title}\n type: ${type}\nqty: ${quantity}\n description: ${description}`)
     const postData = {
+      user: email,
       title: title,
       type: type,
       quantity: quantity,
-      description: description
+      description: description,
     };
 
     storePost(postData);
@@ -68,7 +132,16 @@ const PostScreen = () => {
         <View style={styles.header}>
           <Text style={styles.label}>Add Photos</Text>
         </View>
-        <ImagePicker />
+        <View style={styles.imagePreview}>{imagePreview}</View>
+        <View style={styles.imageBtnContainer}>
+          <TouchableOpacity style={styles.imageBtn} onPress={() => takeImageHandler()}>
+            <Text style={styles.label}>Take Image</Text>
+          </TouchableOpacity>
+          <View style={styles.verticalLine}></View>
+          <TouchableOpacity style={styles.imageBtn} onPress={() => takeImageHandler()}>
+            <Text style={styles.label}>Browse Photo</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.productContainer}>
@@ -76,15 +149,16 @@ const PostScreen = () => {
           <Text style={styles.label}>What Is It?</Text>
         </View>
         <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-        <TextInput
-              style={styles.input}
-              onChangeText={(newText) => setTitle(newText)}
-            />
-        </View>
-        </TouchableWithoutFeedback>
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View>
+              <TextInput
+                style={styles.input}
+                onChangeText={(newText) => setTitle(newText)}
+              />
+            </View>
+          </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </View>
 
@@ -112,7 +186,7 @@ const PostScreen = () => {
             <Text style={styles.label}>Quantity</Text>
           </View>
           <View style={styles.quantity}>
-          <TouchableOpacity
+            <TouchableOpacity
               style={{ ...styles.incdec }}
               onPress={() => qtyDecrementHandler()}
             >
@@ -144,21 +218,21 @@ const PostScreen = () => {
           </Text>
         </View>
         <View>
-        <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-        <TextInput
-              style={styles.input}
-              onChangeText={(newText) => setDescription(newText)}
-              multiline={true}
-            />
-            </View>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(newText) => setDescription(newText)}
+                  multiline={true}
+                />
+              </View>
             </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
         </View>
-        </View>
-
+      </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.postButton} onPress={() => onclick()}>
@@ -189,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   addPhotoContainer: {
-    height: "30%",
+    height: 250,
     width: "90%",
     borderWidth: 1.5,
     borderColor: "#90EE90",
@@ -296,6 +370,36 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingHorizontal: 10,
-    fontFamily: "lato-regular"
+    fontFamily: "lato-regular",
+  },
+  imagePreview: {
+    width: "50%",
+    height: 150,
+    marginVertical: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 5,
+  },
+  imageBtnContainer: {
+    backgroundColor: Colors.primary,
+    width: "100%",
+    height: 50,
+    flexDirection: "row",
+    top: 10
+  },
+  imageBtn: {
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  verticalLine: {
+    height: "100%",
+    width: 1,
+    backgroundColor: '#90EE90',
   }
 });
