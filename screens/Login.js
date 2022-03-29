@@ -28,11 +28,12 @@ const Login = ({ navigation }) => {
   const [borderColor, setBorderColor] = useState("grey");
   const [error, setError] = useState(false);
 
-  // execute upon click of 'Login' button
+  // execute upon click of 'Login' button, replace with API for login
   async function onClick() {
     try {
       // API for login auth
       const token = await login(email, password);
+      authCtx.setEmail(email);
       authCtx.authenticate(token);
     } catch (error) {
       // incorrect credentials
