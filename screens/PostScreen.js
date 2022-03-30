@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  Dimensions
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import {
@@ -261,6 +262,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    top: Dimensions.get('window').height > 700 ? 0 : 30
   },
   addPhotoContainer: {
     height: 250,
@@ -340,7 +342,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     left: "25%",
-    top: 20,
+    top: Dimensions.get('window').height > 700 ? 20 : 10
   },
   postButton: {
     justifyContent: "center",
