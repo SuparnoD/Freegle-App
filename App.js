@@ -61,7 +61,7 @@ function AuthStack() {
         headerLeft: () => {
           return (
             <Feather
-              style={{ marginLeft: 25, marginTop: 5 }}
+              style={{ marginLeft: 10, marginTop: 5 }}
               name="menu"
               size={30}
               color="black"
@@ -130,7 +130,7 @@ function AuthenticatedStack() {
         headerLeft: () => {
           return (
             <Feather
-              style={{ marginLeft: 25, marginTop: 5 }}
+              style={{ marginLeft: 10, marginTop: 5 }}
               name="menu"
               size={30}
               color="black"
