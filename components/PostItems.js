@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useState } from "react";
+import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from "@expo/vector-icons";
 
 import UserIcon from "./UserIcon";
@@ -29,6 +30,7 @@ const PostItems = (props) => {
           </View>
         </View>
       </View>
+      <LinearGradient colors={['#FFFFFF', '#FFFFFF', '#FFFFFF', '#BFBFBF']}>
       <View style={styles.photoContainer}>
         <Image
           style={{ flex: 1, resizeMode: "contain" }}
@@ -37,9 +39,7 @@ const PostItems = (props) => {
       </View>
       <View style={styles.footer}>
         <View style={styles.descContainer}>
-          <Text>{props.description}</Text>
-          <Text>{props.quantity}</Text>
-          <Text>{props.user}</Text>
+          <Text style={{...styles.text}} numberOfLines={2}>{props.description}</Text>
         </View>
         <View style={styles.favContainer}>
           {!isFav ? (
@@ -59,6 +59,7 @@ const PostItems = (props) => {
           )}
         </View>
       </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -83,11 +84,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   footer: {
-    backgroundColor: "#C4C4C4",
     height: "25%",
     width: "100%",
     flexDirection: "row",
     padding: 10,
+    marginTop: 25
   },
   photoContainer: {
     height: "55%",

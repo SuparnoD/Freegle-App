@@ -8,22 +8,25 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
-  Dimensions
+  Dimensions,
+  Platform,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import {
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
+  MediaTypeOptions,
 } from "expo-image-picker";
+import { storeImage } from "../util/firebase";
 import { AntDesign } from "@expo/vector-icons";
 
 import { Colors } from "../constants/Colors";
 import { storePost } from "../util/http";
 import { AuthContext } from "../store/auth-context";
 
-const PostScreen = () => {
-  /* ---     HANDLE CAMERA FUNCTION    --- */
+const PostScreen = ({ navigation }) => {
+  /* ---  CAMERA HANDER --- */
   const [pickedImage, setPickedImage] = useState();
   const savedImages = [];
 
@@ -54,7 +57,14 @@ const PostScreen = () => {
     }
     const image = await launchCameraAsync({
       // different configs available - check doc (expo image picker)
+      base64: true,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+      base64: true,
+      mediaTypes: MediaTypeOptions.Images,
     });
+    Platform.OS === "ios" ? image.uri.replace("file://", "") : image.uri;
     setPickedImage(image.uri);
   }
 
@@ -65,8 +75,10 @@ const PostScreen = () => {
     const postData = {
       photo: pickedImage,
     };
+    console.log(pickedImage);
   }
-  /* ---     HANDLE CAMERA FUNCTION    --- */
+  /* --- END OF CAMERA HANDLER --- */
+
   const [photo, setPhoto] = useState("");
   const [email, setEmail] = useState("");
   const [title, setTitle] = useState("");
@@ -83,7 +95,7 @@ const PostScreen = () => {
   useEffect(() => {
     setTimeout(() => {
       setEmail(authCtx.email);
-    }, 1000)
+    }, 1000);
   });
 
   const offerClicked = () => {
@@ -113,17 +125,26 @@ const PostScreen = () => {
     }
   };
 
+  function uploadSuccess(){
+    return navigation.navigate("Home");
+  }
+
   // execute if validation is successful - replace with your own API
-  function onclick() {
-    console.log(`user: ${email}\ntitle: ${title}\n type: ${type}\nqty: ${quantity}\n description: ${description}`)
+  async function onclick() {
+    const uid = require("uuid/v4");
+    const imgId = uid();
+
+    const respone = await fetch(pickedImage);
+    const blob = await respone.blob();
+    storeImage(blob, imgId);
     const postData = {
       user: email,
       title: title,
       type: type,
       quantity: quantity,
       description: description,
+      img: imgId,
     };
-
     storePost(postData);
   }
 
@@ -135,11 +156,17 @@ const PostScreen = () => {
         </View>
         <View style={styles.imagePreview}>{imagePreview}</View>
         <View style={styles.imageBtnContainer}>
-          <TouchableOpacity style={styles.imageBtn} onPress={() => takeImageHandler()}>
+          <TouchableOpacity
+            style={styles.imageBtn}
+            onPress={() => takeImageHandler()}
+          >
             <Text style={styles.label}>Take Image</Text>
           </TouchableOpacity>
           <View style={styles.verticalLine}></View>
-          <TouchableOpacity style={styles.imageBtn} onPress={() => takeImageHandler()}>
+          <TouchableOpacity
+            style={styles.imageBtn}
+            onPress={() => takeImageHandler()}
+          >
             <Text style={styles.label}>Browse Photo</Text>
           </TouchableOpacity>
         </View>
@@ -262,7 +289,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    top: Dimensions.get('window').height > 700 ? 0 : 30
+    top: Dimensions.get("window").height > 700 ? 0 : 30,
   },
   addPhotoContainer: {
     height: 250,
@@ -342,7 +369,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     left: "25%",
-    top: Dimensions.get('window').height > 700 ? 20 : 10
+    top: Dimensions.get("window").height > 700 ? 20 : 10,
   },
   postButton: {
     justifyContent: "center",
@@ -392,16 +419,16 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     flexDirection: "row",
-    top: 10
+    top: 10,
   },
   imageBtn: {
     width: "50%",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   verticalLine: {
     height: "100%",
     width: 1,
-    backgroundColor: '#90EE90',
-  }
+    backgroundColor: "#90EE90",
+  },
 });
