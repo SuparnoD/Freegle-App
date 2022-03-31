@@ -12,11 +12,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 import { AuthContext } from "../store/auth-context";
 import { Colors } from "../constants/Colors";
 import { login } from "../util/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { authentication } from "../util/firebase";
 
 const Login = ({ navigation }) => {
   const authCtx = useContext(AuthContext);
@@ -30,25 +32,31 @@ const Login = ({ navigation }) => {
 
   // execute upon click of 'Login' button, replace with API for login
   async function onClick() {
-    try {
-      // API for login auth
-      const token = await login(email, password);
-      authCtx.setEmail(email);
-      authCtx.authenticate(token);
-    } catch (error) {
-      // incorrect credentials
-      setError(true);
-      setBorderColor("red");
-    }
+    signInWithEmailAndPassword(authentication, email, password)
+      .then((re) => {
+        const token = login(email, password);
+        authCtx.setEmail(email);
+        authCtx.authenticate(token);
+      })
+      .catch((re) => {
+        // incorrect credentials
+        setError(true);
+        setBorderColor("red");
+      });
   }
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: "row"}}>
-        <View style={{position: "absolute", right: 200}}>
-      <Ionicons name="chevron-back-sharp" size={50} color={Colors.primary} onPress={() => navigation.goBack()} />
-      </View>
-      <Text style={styles.header}>Log In to</Text>
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ position: "absolute", right: 200 }}>
+          <Ionicons
+            name="chevron-back-sharp"
+            size={50}
+            color={Colors.primary}
+            onPress={() => navigation.goBack()}
+          />
+        </View>
+        <Text style={styles.header}>Log In to</Text>
       </View>
       <Text
         style={[
@@ -84,13 +92,13 @@ const Login = ({ navigation }) => {
             </View>
           </View>
         </View>
-        { error ? <View style={{ justifyContent: "center", left: 10 }}>
-            <MaterialIcons
-              name="error-outline"
-              size={24}
-              color={borderColor}
-            />
-          </View> : <View></View>}
+        {error ? (
+          <View style={{ justifyContent: "center", left: 10 }}>
+            <MaterialIcons name="error-outline" size={24} color={borderColor} />
+          </View>
+        ) : (
+          <View></View>
+        )}
       </View>
 
       <View style={styles.labelContainer}>
@@ -98,10 +106,8 @@ const Login = ({ navigation }) => {
       </View>
 
       {viewPassword ? (
-        <View style={{flexDirection: "row"}}>
-          <View
-            style={{ ...styles.inputContainer, borderColor: borderColor }}
-          >
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ ...styles.inputContainer, borderColor: borderColor }}>
             <View style={{ flexDirection: "row", width: 250 }}>
               <TextInput
                 style={styles.input}
@@ -120,19 +126,21 @@ const Login = ({ navigation }) => {
               </View>
             </View>
           </View>
-          { error ? <View style={{ justifyContent: "center", left: 10 }}>
-            <MaterialIcons
-              name="error-outline"
-              size={24}
-              color={borderColor}
-            />
-          </View> : <View></View>}
+          {error ? (
+            <View style={{ justifyContent: "center", left: 10 }}>
+              <MaterialIcons
+                name="error-outline"
+                size={24}
+                color={borderColor}
+              />
+            </View>
+          ) : (
+            <View></View>
+          )}
         </View>
       ) : (
-        <View style={{flexDirection: "row"}}>
-          <View
-            style={{ ...styles.inputContainer, borderColor: borderColor }}
-          >
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ ...styles.inputContainer, borderColor: borderColor }}>
             <View style={{ flexDirection: "row", width: 250 }}>
               <TextInput
                 style={styles.input}
@@ -151,13 +159,17 @@ const Login = ({ navigation }) => {
               </View>
             </View>
           </View>
-          { error ? <View style={{ justifyContent: "center", left: 10 }}>
-            <MaterialIcons
-              name="error-outline"
-              size={24}
-              color={borderColor}
-            />
-          </View> : <View></View>}
+          {error ? (
+            <View style={{ justifyContent: "center", left: 10 }}>
+              <MaterialIcons
+                name="error-outline"
+                size={24}
+                color={borderColor}
+              />
+            </View>
+          ) : (
+            <View></View>
+          )}
         </View>
       )}
 
@@ -264,7 +276,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 10,
     width: "80%",
-    fontFamily: 'lato-regular'
+    fontFamily: "lato-regular",
   },
   resetContainer: {
     alignSelf: "flex-end",

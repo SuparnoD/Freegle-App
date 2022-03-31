@@ -125,25 +125,26 @@ const PostScreen = ({ navigation }) => {
     }
   };
 
-  function uploadSuccess(){
+  function uploadSuccess() {
     return navigation.navigate("Home");
   }
 
   // execute if validation is successful - replace with your own API
   async function onclick() {
-    const uid = require("uuid/v4");
-    const imgId = uid();
+    const uid = Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
 
     const respone = await fetch(pickedImage);
     const blob = await respone.blob();
-    storeImage(blob, imgId);
+    storeImage(blob, uid);
     const postData = {
       user: email,
       title: title,
       type: type,
       quantity: quantity,
       description: description,
-      img: imgId,
+      img: uid,
     };
     storePost(postData);
   }
