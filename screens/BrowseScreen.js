@@ -9,37 +9,11 @@ import PostItems from "../components/PostItems";
 
 const BrowseScreen = () => {
   const [fetchedPosts, setFetchedPosts] = useState([]);
-  const [imgUrl, setImgUrl] = useState();
-  const [imgId, setImgId] = useState();
-
-      async function fetchImg(id){
-        let ret;
-        const storage = getStorage();
-        const reference = ref(storage, "/"+id);
-        await getDownloadURL(reference).then((x) => {
-          ret = x;
-        })
-        return ret;
-      }
-
-  // useEffect(() => {
-  //   async function getImg() {
-  //     const storage = getStorage();
-  //     const reference = ref(storage, "/image-placeholder.jpeg");
-  //     await getDownloadURL(reference).then((x) => {
-  //       setImgUrl(x);
-  //     })
-  //   }
-  //   getImg();
-  // }, []);
-
 
   useEffect(() => {
     async function getPosts() {
       const posts = await fetchPost();
       setFetchedPosts(posts);
-      let i = posts.map(a => "/"+a.img);
-      setImgId(i);
     }
     getPosts();
   }, []);
@@ -71,7 +45,7 @@ const BrowseScreen = () => {
         </View>
       </View>
 
-      <View style={{ flex: 1, width: "100%" }}>
+      <View style={{ flex: 1, width: "90%"}}>
         <FlatList
           data={fetchedPosts}
           keyExtractor={(item) => item.id}

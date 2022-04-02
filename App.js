@@ -206,6 +206,12 @@ function DrawerContent(props, { navigation }) {
           props.navigation.navigate("Home");
         }}
       />
+      <DrawerItem
+        label="Browse for testing"
+        onPress={() => {
+          props.navigation.navigate("BrowseScreen");
+        }}
+      />
     </DrawerContentScrollView>
   );
 }

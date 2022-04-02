@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Platform, Image } from "react-native";
 import React, { useState, useEffect } from "react";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
@@ -22,17 +22,20 @@ const PostItems = (props) => {
   useEffect(() => {
     async function getImg() {
       const storage = getStorage();
-      const reference = ref(storage, "/"+props.id);
+      const reference = ref(storage, "/" + props.id);
       await getDownloadURL(reference).then((x) => {
         setImgUrl(x);
-      })
+      });
     }
     getImg();
   }, []);
 
   return (
     <View style={styles.itemContainer}>
-      <View style={styles.headerContainer}>
+      <LinearGradient
+        colors={["#C4C4C4", "#C4C4C4", "#FFFFFF"]}
+        style={styles.headerContainer}
+      >
         <Text style={styles.titleText}>{props.title}</Text>
         <View style={{ flexDirection: "row" }}>
           <Text style={{ ...styles.text, textTransform: "uppercase" }}>
@@ -42,36 +45,56 @@ const PostItems = (props) => {
             <Text style={styles.text}>{"{x}km"}</Text>
           </View>
         </View>
-      </View>
-      <LinearGradient colors={['#FFFFFF', '#FFFFFF', '#FFFFFF', '#BFBFBF']}>
-      <View style={styles.photoContainer}>
-        <Image
-          style={{ width: "100%", height: "100%", resizeMode: "contain" }}
-          source={{uri: imgUrl}}
-        />
-      </View>
-      <View style={styles.footer}>
-        <View style={styles.descContainer}>
-          <Text style={{...styles.text}} numberOfLines={2}>{props.description}</Text>
-        </View>
-        <View style={styles.favContainer}>
-          {!isFav ? (
-            <AntDesign
-              name="hearto"
-              size={30}
-              color="black"
-              onPress={() => onClickFav()}
+      </LinearGradient>
+      <LinearGradient colors={["#FFFFFF", "#FFFFFF", "#FFFFFF", "#BFBFBF"]}>
+        <View style={styles.photoContainer}>
+          {Platform.OS === "android" ? (
+            <Image
+              style={{
+                width: "100%",
+                height: "100%",
+                resizeMode: "contain",
+                borderRadius: 20,
+              }}
+              source={{ uri: imgUrl }}
             />
           ) : (
-            <AntDesign
-              name="heart"
-              size={30}
-              color="black"
-              onPress={() => onClickFav()}
-            />
+            <View style={{ height: "100%", width: "50%" }}>
+              <Image
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: 10,
+                }}
+                source={{ uri: imgUrl }}
+              />
+            </View>
           )}
         </View>
-      </View>
+        <View style={styles.footer}>
+          <View style={styles.descContainer}>
+            <Text style={{ ...styles.text }} numberOfLines={2}>
+              {props.description}
+            </Text>
+          </View>
+          <View style={styles.favContainer}>
+            {!isFav ? (
+              <AntDesign
+                name="hearto"
+                size={30}
+                color="black"
+                onPress={() => onClickFav()}
+              />
+            ) : (
+              <AntDesign
+                name="heart"
+                size={30}
+                color="black"
+                onPress={() => onClickFav()}
+              />
+            )}
+          </View>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -84,24 +107,25 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     borderColor: "black",
-    borderWidth: 1,
+    borderWidth: 0.5,
     margin: 7.5,
     width: "95%",
-    height: 250,
+    height: 300,
   },
   headerContainer: {
     width: "100%",
-    height: "20%",
+    height: "22.5%",
     backgroundColor: "#C4C4C4",
     paddingHorizontal: 10,
     justifyContent: "center",
+    marginBottom: 15,
   },
   footer: {
     height: "25%",
     width: "100%",
     flexDirection: "row",
     padding: 10,
-    marginTop: 25
+    marginTop: 20,
   },
   photoContainer: {
     height: "55%",
@@ -123,5 +147,6 @@ const styles = StyleSheet.create({
     width: "25%",
     paddingLeft: "15%",
     justifyContent: "center",
+    paddingBottom: 15,
   },
 });

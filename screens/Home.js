@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from "react-native";
 
 import { Colors } from "../constants/Colors";
 
@@ -29,7 +29,7 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ position: "absolute", bottom: 15, paddingTop: 100 }}>
+      <View style={{ position: "absolute", bottom: Dimensions.get("window").height > 700 ? 15 : 0, paddingTop: 100 }}>
         <View style={styles.logoContainer}>
           <Image source={require("../assets/bytemark.png")} />
           <Image source={require("../assets/mythic-beasts.png")} />
