@@ -20,7 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const authentication = getAuth(app);
 
 export async function storeImage(imageUri, fileName) {
   const storage = getStorage();

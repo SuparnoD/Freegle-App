@@ -1,5 +1,6 @@
-import { StyleSheet, TextInput, View, FlatList } from "react-native";
+import { StyleSheet, TextInput, View, FlatList, Image } from "react-native";
 import React, { useEffect, useState } from "react";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -8,11 +9,37 @@ import PostItems from "../components/PostItems";
 
 const BrowseScreen = () => {
   const [fetchedPosts, setFetchedPosts] = useState([]);
+  const [imgUrl, setImgUrl] = useState();
+  const [imgId, setImgId] = useState();
+
+      async function fetchImg(id){
+        let ret;
+        const storage = getStorage();
+        const reference = ref(storage, "/"+id);
+        await getDownloadURL(reference).then((x) => {
+          ret = x;
+        })
+        return ret;
+      }
+
+  // useEffect(() => {
+  //   async function getImg() {
+  //     const storage = getStorage();
+  //     const reference = ref(storage, "/image-placeholder.jpeg");
+  //     await getDownloadURL(reference).then((x) => {
+  //       setImgUrl(x);
+  //     })
+  //   }
+  //   getImg();
+  // }, []);
+
 
   useEffect(() => {
     async function getPosts() {
       const posts = await fetchPost();
       setFetchedPosts(posts);
+      let i = posts.map(a => "/"+a.img);
+      setImgId(i);
     }
     getPosts();
   }, []);
@@ -25,6 +52,7 @@ const BrowseScreen = () => {
         quantity={itemData.item.quantity}
         type={itemData.item.type}
         user={itemData.item.user}
+        id={itemData.item.img}
       />
     );
   }
@@ -36,7 +64,7 @@ const BrowseScreen = () => {
           <View style={styles.searchIcon}>
             <Feather name="search" size={20} color="black" />
           </View>
-          <TextInput style={{width: "75%"}} placeholder="Search..." />
+          <TextInput style={{ width: "75%" }} placeholder="Search..." />
         </View>
         <View style={styles.dropDownContainer}>
           <AntDesign name="down" size={24} color="black" />
@@ -79,7 +107,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 10
+    marginRight: 10,
   },
   searchIcon: {
     margin: 5,

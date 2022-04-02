@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign } from "@expo/vector-icons";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 import UserIcon from "./UserIcon";
 import { Colors } from "../constants/Colors";
 
 const PostItems = (props) => {
   const [isFav, setIsFav] = useState(false);
+  const [imgUrl, setImgUrl] = useState();
 
   function onClickFav() {
     if (isFav) {
@@ -16,6 +18,17 @@ const PostItems = (props) => {
       setIsFav(true);
     }
   }
+
+  useEffect(() => {
+    async function getImg() {
+      const storage = getStorage();
+      const reference = ref(storage, "/"+props.id);
+      await getDownloadURL(reference).then((x) => {
+        setImgUrl(x);
+      })
+    }
+    getImg();
+  }, []);
 
   return (
     <View style={styles.itemContainer}>
@@ -33,8 +46,8 @@ const PostItems = (props) => {
       <LinearGradient colors={['#FFFFFF', '#FFFFFF', '#FFFFFF', '#BFBFBF']}>
       <View style={styles.photoContainer}>
         <Image
-          style={{ flex: 1, resizeMode: "contain" }}
-          source={require("../assets/image-placeholder.jpeg")}
+          style={{ width: "100%", height: "100%", resizeMode: "contain" }}
+          source={{uri: imgUrl}}
         />
       </View>
       <View style={styles.footer}>

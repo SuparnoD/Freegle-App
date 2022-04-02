@@ -20,6 +20,7 @@ export async function fetchPost() {
       title: response.data[key].title,
       type: response.data[key].type,
       user: response.data[key].user,
+      img: response.data[key].img,
     };
     posts.push(postObj);
   }
