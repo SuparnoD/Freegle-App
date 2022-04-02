@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   descriptionContainer: {
-    height: "25%",
+    height: Dimensions.get("window").height > 700 ? "25%" : "15%",
     width: "90%",
     borderWidth: 1.5,
     borderColor: "#90EE90",
