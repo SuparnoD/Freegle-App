@@ -5,10 +5,12 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 import { fetchPost } from "../util/http";
+import BrowseDropdown from "../components/BrowseDropdown";
 import PostItems from "../components/PostItems";
 
 const BrowseScreen = () => {
   const [fetchedPosts, setFetchedPosts] = useState([]);
+  const [dropdownSelected, setDropdownSelected] = useState(false);
 
   useEffect(() => {
     async function getPosts() {
@@ -41,7 +43,7 @@ const BrowseScreen = () => {
           <TextInput style={{ width: "75%" }} placeholder="Search..." />
         </View>
         <View style={styles.dropDownContainer}>
-          <AntDesign name="down" size={24} color="black" />
+          <AntDesign name="down" size={24} color="black" onPress={() => setDropdownSelected(true)} />
         </View>
       </View>
 
