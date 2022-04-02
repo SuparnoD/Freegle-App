@@ -11,6 +11,9 @@ const PostItems = (props) => {
   const [isFav, setIsFav] = useState(false);
   const [imgUrl, setImgUrl] = useState();
 
+  let gradientColor = ["#C4C4C4", "#FFFFFF"];
+  Platform.OS === "android" ? gradientColor = ["#C4C4C4", "#C4C4C4", "#FFFFFF"] : gradientColor;
+
   function onClickFav() {
     if (isFav) {
       setIsFav(false);
@@ -33,7 +36,7 @@ const PostItems = (props) => {
   return (
     <View style={styles.itemContainer}>
       <LinearGradient
-        colors={["#C4C4C4", "#C4C4C4", "#FFFFFF"]}
+        colors={gradientColor}
         style={styles.headerContainer}
       >
         <Text style={styles.titleText}>{props.title}</Text>
@@ -46,7 +49,6 @@ const PostItems = (props) => {
           </View>
         </View>
       </LinearGradient>
-      <LinearGradient colors={["#FFFFFF", "#FFFFFF", "#FFFFFF", "#BFBFBF"]}>
         <View style={styles.photoContainer}>
           {Platform.OS === "android" ? (
             <Image
@@ -71,6 +73,7 @@ const PostItems = (props) => {
             </View>
           )}
         </View>
+        <LinearGradient colors={["#FFFFFF", "#BFBFBF"]}>
         <View style={styles.footer}>
           <View style={styles.descContainer}>
             <Text style={{ ...styles.text }} numberOfLines={2}>
@@ -95,7 +98,7 @@ const PostItems = (props) => {
             )}
           </View>
         </View>
-      </LinearGradient>
+        </LinearGradient>
     </View>
   );
 };
@@ -118,14 +121,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#C4C4C4",
     paddingHorizontal: 10,
     justifyContent: "center",
-    marginBottom: 15,
   },
   footer: {
-    height: "25%",
+    height: "40%",
     width: "100%",
     flexDirection: "row",
-    padding: 10,
-    marginTop: 20,
   },
   photoContainer: {
     height: "55%",
@@ -142,11 +142,13 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     width: "75%",
+    overflow: "hidden",
+    marginTop: 10,
+    paddingLeft: 10,
   },
   favContainer: {
     width: "25%",
     paddingLeft: "15%",
     justifyContent: "center",
-    paddingBottom: 15,
   },
 });
