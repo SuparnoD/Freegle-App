@@ -29,13 +29,13 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ position: "absolute", bottom: Dimensions.get("window").height > 700 ? 15 : 0, paddingTop: 100 }}>
+      <View style={{ position: "absolute", bottom: Dimensions.get("window").height > 700 ? 15 : 5 }}>
         <View style={styles.logoContainer}>
           <Image source={require("../assets/bytemark.png")} />
           <Image source={require("../assets/mythic-beasts.png")} />
         </View>
 
-        <Text style={{ textAlign: "center", fontSize: 12, fontFamily: 'lato-regular' }}>
+        <Text style={{ textAlign: "center", fontSize: Dimensions.get("window").height > 700 ? 12 : 10, fontFamily: 'lato-regular' }}>
           Freegle is registered as a charity with HMRC (ref. XT32865) {"\n"}{" "}
           Kindly supported by Bytemark & Mythic Beasts
         </Text>
