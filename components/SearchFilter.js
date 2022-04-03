@@ -1,7 +1,16 @@
-import { StyleSheet, TextInput, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
+import Slider from "@react-native-community/slider";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+
+import { Colors } from "../constants/Colors";
 
 const SearchFilter = () => {
   const [dropdownClicked, setDropdownClicked] = useState(false);
@@ -10,15 +19,37 @@ const SearchFilter = () => {
     if (dropdownClicked) {
       return (
         <View style={styles.filter}>
-          <Text style={{fontFamily: "lato-black", marginBottom: 10}}>Filter By:</Text>
-          <Text style={{fontFamily: "lato-regular", marginBottom: 10}}>Distance</Text>
-          <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-              <TouchableOpacity style={styles.btn}>
-                  <Text style={{fontFamily: "lato-regular"}}>OFFER</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.btn}>
-                  <Text style={{fontFamily: "lato-regular"}}>WANTED</Text>
-              </TouchableOpacity>
+          <Text style={{ fontFamily: "lato-black", marginBottom: 10 }}>
+            Filter By:
+          </Text>
+          <Text style={{ fontFamily: "lato-regular", marginBottom: 0 }}>
+            Distance
+          </Text>
+          <Slider
+            style={{ width: "100%", height: 40 }}
+            minimumValue={0}
+            maximumValue={5}
+            minimumTrackTintColor="#000000"
+            maximumTrackTintColor="#000000"
+            thumbTintColor={Colors.primary}
+          />
+          <View style={{ flexDirection: "row", marginBottom: 10 }}>
+            <Text style={{ marginRight: "auto", fontFamily: "lato-light" }}>
+              {"<"}0km
+            </Text>
+            <Text style={{ marginLeft: "auto", fontFamily: "lato-light" }}>
+              {">"}5km
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <TouchableOpacity style={styles.btn}>
+              <Text style={{ fontFamily: "lato-light" }}>OFFER</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btn}>
+              <Text style={{ fontFamily: "lato-light" }}>WANTED</Text>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -40,9 +71,7 @@ const SearchFilter = () => {
         </View>
         <View style={styles.dropDownContainer}>
           <AntDesign
-            name={
-                dropdownClicked ? "up" : "down"
-            }
+            name={dropdownClicked ? "up" : "down"}
             size={24}
             color="black"
             onPress={() => setDropdownClicked(!dropdownClicked)}
@@ -77,16 +106,18 @@ const styles = StyleSheet.create({
   },
   filter: {
     width: "100%",
-    height: 100,
-    bottom: 15,
-    paddingHorizontal: 10
+    height: 110,
+    bottom: 20,
+    paddingHorizontal: 10,
+    paddingTop: 5,
+    marginBottom: 20,
   },
   btn: {
-      borderWidth: 1,
-      borderRadius: 10,
-      width: 75,
-      height: 25,
-      justifyContent: "center",
-      alignItems: "center"
-  }
+    borderWidth: 1,
+    borderRadius: 10,
+    width: 75,
+    height: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
