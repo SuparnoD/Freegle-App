@@ -1,18 +1,26 @@
-import { StyleSheet, Text, View, Platform, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign } from "@expo/vector-icons";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { useNavigation } from "@react-navigation/native";
 
-import UserIcon from "./UserIcon";
-import { Colors } from "../constants/Colors";
+import { retrieveImage } from "../util/firebase";
 
 const PostItems = (props) => {
   const [isFav, setIsFav] = useState(false);
   const [imgUrl, setImgUrl] = useState();
 
   let gradientColor = ["#C4C4C4", "#FFFFFF"];
-  Platform.OS === "android" ? gradientColor = ["#C4C4C4", "#C4C4C4", "#FFFFFF"] : gradientColor;
+  Platform.OS === "android"
+    ? (gradientColor = ["#C4C4C4", "#C4C4C4", "#FFFFFF"])
+    : gradientColor;
 
   function onClickFav() {
     if (isFav) {
@@ -24,21 +32,25 @@ const PostItems = (props) => {
 
   useEffect(() => {
     async function getImg() {
-      const storage = getStorage();
-      const reference = ref(storage, "/" + props.id);
-      await getDownloadURL(reference).then((x) => {
-        setImgUrl(x);
-      });
+      const url = await retrieveImage(props.id);
+      setImgUrl(url);
     }
     getImg();
   }, []);
 
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.itemContainer}>
-      <LinearGradient
-        colors={gradientColor}
-        style={styles.headerContainer}
-      >
+    <TouchableOpacity onPress={() => {navigation.navigate("PostOverviewScreen",{
+      title: props.title,
+      description: props.description,
+      quantity: props.quantity,
+      type: props.type,
+      user: props.user,
+      imgUrl: imgUrl,
+      id: props.id
+    })}} style={styles.itemContainer}>
+      <LinearGradient colors={gradientColor} style={styles.headerContainer}>
         <Text style={styles.titleText}>{props.title}</Text>
         <View style={{ flexDirection: "row" }}>
           <Text style={{ ...styles.text, textTransform: "uppercase" }}>
@@ -49,31 +61,31 @@ const PostItems = (props) => {
           </View>
         </View>
       </LinearGradient>
-        <View style={styles.photoContainer}>
-          {Platform.OS === "android" ? (
+      <View style={styles.photoContainer}>
+        {Platform.OS === "android" ? (
+          <Image
+            style={{
+              width: "100%",
+              height: "100%",
+              resizeMode: "contain",
+              borderRadius: 20,
+            }}
+            source={{ uri: imgUrl }}
+          />
+        ) : (
+          <View style={{ height: "100%", width: "50%" }}>
             <Image
               style={{
                 width: "100%",
                 height: "100%",
-                resizeMode: "contain",
-                borderRadius: 20,
+                borderRadius: 10,
               }}
               source={{ uri: imgUrl }}
             />
-          ) : (
-            <View style={{ height: "100%", width: "50%" }}>
-              <Image
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: 10,
-                }}
-                source={{ uri: imgUrl }}
-              />
-            </View>
-          )}
-        </View>
-        <LinearGradient colors={["#FFFFFF", "#BFBFBF"]}>
+          </View>
+        )}
+      </View>
+      <LinearGradient colors={["#FFFFFF", "#BFBFBF"]}>
         <View style={styles.footer}>
           <View style={styles.descContainer}>
             <Text style={{ ...styles.text }} numberOfLines={2}>
@@ -98,8 +110,8 @@ const PostItems = (props) => {
             )}
           </View>
         </View>
-        </LinearGradient>
-    </View>
+      </LinearGradient>
+    </TouchableOpacity>
   );
 };
 

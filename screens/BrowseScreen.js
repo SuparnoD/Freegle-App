@@ -1,5 +1,6 @@
 import { StyleSheet, TextInput, View, FlatList, Image } from "react-native";
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import { fetchPost } from "../util/http";
 import SearchFilter from "../components/SearchFilter";
@@ -7,6 +8,8 @@ import PostItems from "../components/PostItems";
 
 const BrowseScreen = () => {
   const [fetchedPosts, setFetchedPosts] = useState([]);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function getPosts() {
@@ -33,7 +36,7 @@ const BrowseScreen = () => {
     <View style={styles.container}>
       <SearchFilter />
 
-      <View style={{ flex: 1, width: "90%"}}>
+      <View style={{ flex: 1, width: "90%" }}>
         <FlatList
           data={fetchedPosts}
           keyExtractor={(item) => item.id}

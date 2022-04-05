@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { useContext, useEffect } from "react";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,4 +29,15 @@ export async function storeImage(imageUri, fileName) {
   uploadBytes(storageRef, imageUri).then((snapshot) => {
     console.log("Uploaded a blob or file!");
   });
+}
+
+export async function retrieveImage(id) {
+  let url;
+  const storage = getStorage();
+  const reference = ref(storage, "/" + id);
+  await getDownloadURL(reference).then((x) => {
+    url = x;
+  });
+
+  return url;
 }

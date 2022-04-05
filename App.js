@@ -16,6 +16,7 @@ import Home from "./screens/Home";
 import Login from "./screens/Login";
 import SignUp from "./screens/SignUp";
 import BrowseScreen from "./screens/BrowseScreen";
+import PostOverviewScreen from "./screens/PostOverviewScreen";
 import UserIcon from "./components/UserIcon";
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import PostContextProvider from "./store/item-context";
@@ -98,6 +99,11 @@ function AuthStack() {
         component={Login}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="PostOverviewScreen"
+        component={PostOverviewScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
@@ -160,6 +166,11 @@ function AuthenticatedStack() {
         name="PostScreen"
         component={PostScreen}
         options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="PostOverviewScreen"
+        component={PostOverviewScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
