@@ -102,7 +102,7 @@ function AuthStack() {
       <Stack.Screen
         name="PostOverviewScreen"
         component={PostOverviewScreen}
-        options={{ headerShown: false }}
+        options={{ title: "", headerTransparent: false }}
       />
     </Stack.Navigator>
   );
@@ -170,7 +170,7 @@ function AuthenticatedStack() {
       <Stack.Screen
         name="PostOverviewScreen"
         component={PostOverviewScreen}
-        options={{ headerShown: false }}
+        options={{ title: "", headerTransparent: false }}
       />
     </Stack.Navigator>
   );
@@ -269,7 +269,7 @@ export default function App() {
   return (
     <AuthContextProvider>
       <PostContextProvider>
-      <Navigation />
+        <Navigation />
       </PostContextProvider>
     </AuthContextProvider>
   );
