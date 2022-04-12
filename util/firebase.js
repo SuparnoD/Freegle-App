@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import { useContext, useEffect } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, collection, doc, setDoc, getDocs } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -21,6 +23,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const authentication = getAuth(app);
+
+// chat feature init
+export const db = getFirestore(app);
 
 export async function storeImage(imageUri, fileName) {
   const storage = getStorage();

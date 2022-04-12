@@ -23,6 +23,11 @@ import PostContextProvider from "./store/item-context";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import PostScreen from "./screens/PostScreen";
+import ChatIndex from "./screens/chat/Index";
+import ChatRoomScreen from "./screens/chat/screens/ChatRoomScreen";
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from "./constants/Colors";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -104,6 +109,11 @@ function AuthStack() {
         component={PostOverviewScreen}
         options={{ title: "", headerTransparent: false }}
       />
+      <Stack.Screen
+        name="ChatIndex"
+        component={Login}
+        options={{ title: "", headerTransparent: false }}
+      />
     </Stack.Navigator>
   );
 }
@@ -172,6 +182,25 @@ function AuthenticatedStack() {
         component={PostOverviewScreen}
         options={{ title: "", headerTransparent: false }}
       />
+      <Stack.Screen
+        name="ChatIndex"
+        component={ChatIndex}
+        options={{ title: "", headerShown: false }}
+      />
+      <Stack.Screen
+          name="ChatRoomScreen"
+          component={ChatRoomScreen}
+          options={({ route }) => ({
+            title: route.params.name,
+            headerStyle: {
+              backgroundColor: Colors.primary,
+            },
+            headerTintColor: 'white',
+            headerRight: () => (
+              <MaterialCommunityIcons name='dots-vertical' size={22} color='white' />
+            ),
+          })}
+        />
     </Stack.Navigator>
   );
 }
@@ -215,6 +244,12 @@ function DrawerContent(props, { navigation }) {
         label="Contact"
         onPress={() => {
           props.navigation.navigate("Home");
+        }}
+      />
+      <DrawerItem
+        label="Chat"
+        onPress={() => {
+          props.navigation.navigate("ChatIndex");
         }}
       />
     </DrawerContentScrollView>
