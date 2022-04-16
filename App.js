@@ -26,8 +26,11 @@ import PostScreen from "./screens/PostScreen";
 import ChatIndex from "./screens/chat/Index";
 import ChatRoomScreen from "./screens/chat/screens/ChatRoomScreen";
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./constants/Colors";
+import CustomDrawer from "./components/CustomDrawer";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -57,26 +60,6 @@ function AuthStack() {
     <Stack.Navigator
       screenOptions={({ navigation }) => ({
         headerTransparent: true,
-        headerRight: () => {
-          return (
-            <UserIcon onClick={() => navigation.navigate("Login")}>
-              <FontAwesome name="user-o" size={24} color="white" />
-            </UserIcon>
-          );
-        },
-        headerLeft: () => {
-          return (
-            <Feather
-              style={{ marginLeft: 10, marginTop: 5 }}
-              name="menu"
-              size={30}
-              color="black"
-              onPress={() => {
-                navigation.openDrawer();
-              }}
-            />
-          );
-        },
         drawerContentStyle: {
           backgroundColor: "#e5f6df",
         },
@@ -127,35 +110,6 @@ function AuthenticatedStack() {
       screenOptions={({ navigation }) => ({
         headerTransparent: true,
         headerTitle: "",
-        headerRight: () => {
-          return (
-            <UserIcon
-              onClick={() => {
-                authCtx.logout();
-                navigation.navigate("Home");
-              }}
-            >
-              <Image
-                style={{ flex: 1, resizeMode: "contain" }}
-                // API to fetch user profile image could be inserted here
-                source={require("./assets/pakalu.png")}
-              />
-            </UserIcon>
-          );
-        },
-        headerLeft: () => {
-          return (
-            <Feather
-              style={{ marginLeft: 10, marginTop: 5 }}
-              name="menu"
-              size={30}
-              color="black"
-              onPress={() => {
-                navigation.openDrawer();
-              }}
-            />
-          );
-        },
         drawerContentStyle: {
           backgroundColor: "#e5f6df",
         },
@@ -175,7 +129,7 @@ function AuthenticatedStack() {
       <Stack.Screen
         name="PostScreen"
         component={PostScreen}
-        options={{ title: "" }}
+        options={{ title: "", headerShown: false }}
       />
       <Stack.Screen
         name="PostOverviewScreen"
@@ -188,73 +142,77 @@ function AuthenticatedStack() {
         options={{ title: "", headerShown: false }}
       />
       <Stack.Screen
-          name="ChatRoomScreen"
-          component={ChatRoomScreen}
-          options={({ route }) => ({
-            title: route.params.name,
-            headerStyle: {
-              backgroundColor: Colors.primary,
-            },
-            headerTintColor: 'white',
-            headerRight: () => (
-              <MaterialCommunityIcons name='dots-vertical' size={22} color='white' />
-            ),
-          })}
-        />
+        name="ChatRoomScreen"
+        component={ChatRoomScreen}
+        options={({ route }) => ({
+          title: route.params.name,
+          headerStyle: {
+            backgroundColor: Colors.primary,
+          },
+          headerTintColor: "white",
+          headerRight: () => (
+            <MaterialCommunityIcons
+              name="dots-vertical"
+              size={22}
+              color="white"
+            />
+          ),
+        })}
+      />
     </Stack.Navigator>
   );
 }
 
-// links for drawer navigation
-function DrawerContent(props, { navigation }) {
-  return (
-    <DrawerContentScrollView>
-      <DrawerItemList {...props} />
-      <DrawerItem
-        label="About"
-        onPress={() => {
-          props.navigation.navigate("Home");
-        }}
-      />
-      <DrawerItem
-        label="Terms"
-        onPress={() => {
-          props.navigation.navigate("Home");
-        }}
-      />
-      <DrawerItem
-        label="Privacy"
-        onPress={() => {
-          props.navigation.navigate("Home");
-        }}
-      />
-      <DrawerItem
-        label="Disclaimer"
-        onPress={() => {
-          props.navigation.navigate("Home");
-        }}
-      />
-      <DrawerItem
-        label="Donate"
-        onPress={() => {
-          props.navigation.navigate("Home");
-        }}
-      />
-      <DrawerItem
-        label="Contact"
-        onPress={() => {
-          props.navigation.navigate("Home");
-        }}
-      />
-      <DrawerItem
-        label="Chat"
-        onPress={() => {
-          props.navigation.navigate("ChatIndex");
-        }}
-      />
-    </DrawerContentScrollView>
-  );
-}
+// // links for drawer navigation
+// function DrawerContent(props, { navigation }) {
+//   return (
+//     <DrawerContentScrollView>
+//       <DrawerItemList {...props} />
+//       <DrawerItem
+//         label="About"
+//         onPress={() => {
+//           props.navigation.navigate("Home");
+//         }}
+//       />
+//       <DrawerItem
+//         label="Terms"
+//         onPress={() => {
+//           props.navigation.navigate("Home");
+//         }}
+//       />
+//       <DrawerItem
+//         label="Privacy"
+//         onPress={() => {
+//           props.navigation.navigate("Home");
+//         }}
+//       />
+//       <DrawerItem
+//         label="Disclaimer"
+//         onPress={() => {
+//           props.navigation.navigate("Home");
+//         }}
+//       />
+//       <DrawerItem
+//         label="Donate"
+//         onPress={() => {
+//           props.navigation.navigate("Home");
+//         }}
+//       />
+//       <DrawerItem
+//         label="Contact"
+//         onPress={() => {
+//           props.navigation.navigate("Home");
+//         }}
+//       />
+//       <DrawerItem
+//         label="Chat"
+//         onPress={() => {
+//           props.navigation.navigate("ChatIndex");
+//         }}
+//       />
+//     </DrawerContentScrollView>
+//   );
+// }
 
 function whichStack() {
   const authCtx = useContext(AuthContext);
@@ -266,6 +224,13 @@ function whichStack() {
   }
 }
 
+const Logout = ({navigation}) => {
+  const authCtx = useContext(AuthContext);
+  authCtx.logout();
+  navigation.navigate("Home");
+  return null;
+}
+
 // stack is rendered depending on whether a user is authenticated or not
 function Navigation() {
   const authCtx = useContext(AuthContext);
@@ -273,14 +238,109 @@ function Navigation() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        drawerContent={(props) => <DrawerContent {...props} />}
-        screenOptions={{ headerShown: false }}
+        drawerContent={(props) => <CustomDrawer {...props} />}
+        screenOptions={({ navigation }) => ({
+          headerTransparent: true,
+          drawerLabelStyle: { fontFamily: "lato-black" },
+          drawerActiveBackgroundColor: Colors.primary,
+          drawerActiveTintColor: "#fff",
+          headerRight: () => {
+            if (!authCtx.isAuthenticated) {
+              return (
+                <UserIcon onClick={() => navigation.navigate("Login")}>
+                  <FontAwesome name="user-o" size={24} color="white" />
+                </UserIcon>
+              );
+            } else {
+              return (
+                <UserIcon
+                  onClick={() => {
+                    authCtx.logout();
+                    navigation.navigate("Home");
+                  }}
+                >
+                  <Image
+                    style={{ flex: 1, resizeMode: "contain" }}
+                    // API to fetch user profile image could be inserted here
+                    source={require("./assets/pakalu.png")}
+                  />
+                </UserIcon>
+              );
+            }
+          },
+          headerLeft: () => {
+            return (
+              <Feather
+                style={{ marginLeft: 10, marginTop: 5 }}
+                name="menu"
+                size={30}
+                color="black"
+                onPress={() => {
+                  navigation.openDrawer();
+                }}
+              />
+            );
+          },
+        })}
       >
         <Drawer.Screen
           name="Stack"
           component={whichStack()}
           options={{
             drawerItemStyle: { height: 0 },
+            headerTitle: "",
+          }}
+        />
+        <Drawer.Screen
+          name="Browse"
+          component={BrowseScreen}
+          options={{
+            drawerIcon: ({ color }) => (
+              <AntDesign name="search1" size={22} color={color} />
+            ),
+            headerTitle: "",
+          }}
+        />
+        <Drawer.Screen
+          name="Post"
+          component={authCtx.isAuthenticated ? PostScreen : Login}
+          options={{
+            drawerIcon: ({ color }) => (
+              <Ionicons name="add-circle-outline" size={22} color={color} />
+            ),
+            headerTitle: "",
+          }}
+        />
+        <Drawer.Screen
+          name="Chat"
+          component={authCtx.isAuthenticated ? ChatIndex : Login}
+          options={{
+            drawerIcon: ({ color }) => (
+              <Ionicons name="chatbox-outline" size={22} color={color} />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Drawer.Screen
+          name="Map"
+          component={Home}
+          options={{
+            drawerIcon: ({ color }) => (
+              <Feather name="map-pin" size={22} color={color} />
+            ),
+            headerTitle: "",
+          }}
+        />
+        <Drawer.Screen
+          name={authCtx.isAuthenticated ? "Logout" : "Login"}
+          component={!authCtx.isAuthenticated ? Login : Logout}
+          options={{
+            drawerIcon: ({ color }) => (
+              <AntDesign name={
+                authCtx.isAuthenticated ? "logout" : "login"
+              } size={22} color={color} />
+            ),
+            headerTitle: "",
           }}
         />
       </Drawer.Navigator>
