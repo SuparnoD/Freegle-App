@@ -101,7 +101,7 @@ function AuthStack() {
       <Stack.Screen
         name="AboutScreen"
         component={AboutScreen}
-        options={{ title: "" }}
+        options={{ title: "", headerTransparent: false }}
       />
     </Stack.Navigator>
   );
@@ -168,7 +168,8 @@ function AuthenticatedStack() {
       <Stack.Screen
         name="AboutScreen"
         component={AboutScreen}
-        options={{ title: "" }}
+        options={{ title: "", headerTransparent: false
+       }}
       />
     </Stack.Navigator>
   );
