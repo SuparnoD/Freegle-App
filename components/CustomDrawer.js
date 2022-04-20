@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/drawer";
 import React from "react";
 
-const CustomDrawer = (props) => {
+const CustomDrawer = (props, { navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
@@ -24,11 +24,18 @@ const CustomDrawer = (props) => {
             borderBottomWidth: 0.5,
             width: "75%",
             bottom: 10,
-            left: "10%"
+            left: "10%",
           }}
         />
         <View style={styles.bottomNav}>
-          <Text style={styles.subNav}>About</Text>
+          <Text
+            style={styles.subNav}
+            onPress={() => {
+              props.navigation.navigate("AboutScreen");
+            }}
+          >
+            About
+          </Text>
           <Text style={styles.subNav}>Terms</Text>
           <Text style={styles.subNav}>Privacy</Text>
           <Text style={styles.subNav}>Disclaimer</Text>
@@ -36,9 +43,13 @@ const CustomDrawer = (props) => {
           <Text style={styles.subNav}>Contact</Text>
         </View>
       </DrawerContentScrollView>
-      <View style={{bottom: 10}}>
-        <Text style={styles.infoText}>Freegle is registered as a charity with HMRC{"\n"}(ref. XT32865)</Text>
-        <Text style={styles.infoText}>Kindly supported by Bytemark & Mythic Beasts</Text>
+      <View style={{ bottom: 10 }}>
+        <Text style={styles.infoText}>
+          Freegle is registered as a charity with HMRC{"\n"}(ref. XT32865)
+        </Text>
+        <Text style={styles.infoText}>
+          Kindly supported by Bytemark & Mythic Beasts
+        </Text>
       </View>
     </View>
   );
@@ -54,7 +65,7 @@ const styles = StyleSheet.create({
   },
   itemList: {
     padding: 10,
-    bottom: 20
+    bottom: 20,
   },
   infoText: {
     textAlign: "center",
@@ -63,10 +74,10 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     padding: 20,
-    bottom: 25
+    bottom: 25,
   },
   subNav: {
-      margin: Dimensions.get("window").height > 700 ? 10 : 8,
-      fontSize: 12,
-  }
+    margin: Dimensions.get("window").height > 700 ? 10 : 8,
+    fontSize: 12,
+  },
 });
