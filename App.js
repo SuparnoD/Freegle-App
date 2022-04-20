@@ -31,6 +31,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./constants/Colors";
 import CustomDrawer from "./components/CustomDrawer";
+import AboutScreen from "./screens/info/AboutScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -97,6 +98,11 @@ function AuthStack() {
         component={Login}
         options={{ title: "", headerTransparent: false }}
       />
+      <Stack.Screen
+        name="AboutScreen"
+        component={AboutScreen}
+        options={{ title: "" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -158,6 +164,11 @@ function AuthenticatedStack() {
             />
           ),
         })}
+      />
+      <Stack.Screen
+        name="AboutScreen"
+        component={AboutScreen}
+        options={{ title: "" }}
       />
     </Stack.Navigator>
   );
