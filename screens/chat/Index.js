@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
-import { Octicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Octicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -10,7 +10,7 @@ import MainNavigationBar from './components/MainNavigationBar';
 import ChatList from './screens/ChatList';
 import SearchBar from './components/SearchBar';
 
-const Index = () => {
+const Index = ({ navigation }) => {
   const [chatScreen, setChatScreen] = useState(true);
   return (
     <View>
@@ -18,7 +18,7 @@ const Index = () => {
       {
         chatScreen ? (
           <View style={styles.navContainer} >
-            <MainNavigationBar onPress={() => { setChatScreen(true) }}><MaterialCommunityIcons name='chat' size={16} color='white' />  CHATS</MainNavigationBar>
+            <MainNavigationBar onPress={() => {navigation.navigate("Home")}}><Entypo name="home" size={16} color="white" /> HOME</MainNavigationBar>
             <MainNavigationBar onPress={() => { setChatScreen(false) }}><Octicons name='search' size={16} color='white' />  SEARCH</MainNavigationBar>
           </View>
         ) : <SearchBar>

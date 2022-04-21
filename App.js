@@ -91,7 +91,7 @@ function AuthStack() {
       <Stack.Screen
         name="PostOverviewScreen"
         component={PostOverviewScreen}
-        options={{ title: "", headerTransparent: false }}
+        options={{ title: "", headerTransparent: false, headerBackVisible: false }}
       />
       <Stack.Screen
         name="ChatIndex"
@@ -101,7 +101,7 @@ function AuthStack() {
       <Stack.Screen
         name="AboutScreen"
         component={AboutScreen}
-        options={{ title: "", headerTransparent: false }}
+        options={{ title: "", headerTransparent: false, headerBackVisible: false }}
       />
     </Stack.Navigator>
   );
@@ -115,7 +115,6 @@ function AuthenticatedStack() {
     <Stack.Navigator
       screenOptions={({ navigation }) => ({
         headerTransparent: true,
-        headerTitle: "",
         drawerContentStyle: {
           backgroundColor: "#e5f6df",
         },
@@ -140,7 +139,7 @@ function AuthenticatedStack() {
       <Stack.Screen
         name="PostOverviewScreen"
         component={PostOverviewScreen}
-        options={{ title: "", headerTransparent: false }}
+        options={{ title: "", headerTransparent: false, headerBackVisible: false }}
       />
       <Stack.Screen
         name="ChatIndex"
@@ -168,7 +167,7 @@ function AuthenticatedStack() {
       <Stack.Screen
         name="AboutScreen"
         component={AboutScreen}
-        options={{ title: "", headerTransparent: false
+        options={{ title: "", headerTransparent: false, headerBackVisible: false
        }}
       />
     </Stack.Navigator>
@@ -353,6 +352,13 @@ function Navigation() {
               } size={22} color={color} />
             ),
             headerTitle: "",
+          }}
+        />
+        <Drawer.Screen
+          name="ChatRoomScreen"
+          component={ChatRoomScreen}
+          options={{
+            headerShown: false
           }}
         />
       </Drawer.Navigator>

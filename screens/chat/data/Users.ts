@@ -5,31 +5,31 @@ export default [{
   status: "Hello there, how are you"
 }, {
   id: 'u2',
-  name: 'Lukas',
+  name: 'Liam',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/2.jpg',
 }, {
   id: 'u3',
-  name: 'Daniil',
+  name: 'Ben',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/3.jpg',
 }, {
   id: 'u4',
-  name: 'Alex',
+  name: 'Brandon',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/3.png',
 }, {
   id: 'u5',
-  name: 'Vlad',
+  name: 'Erol',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/4.jpg',
 }, {
   id: 'u6',
-  name: 'Elon Musk',
+  name: 'Hristina',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/5.jpg',
 }, {
   id: 'u7',
-  name: 'Adrian',
+  name: 'Suparno',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/6.png',
 }, {
   id: 'u8',
-  name: 'Borja',
+  name: 'Edward',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/7.png',
 }, {
   id: 'u9',
@@ -37,6 +37,6 @@ export default [{
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/8.png',
 }, {
   id: 'u10',
-  name: 'Angelina Jolie',
+  name: 'Brian',
   imageUri: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/9.png',
 }]
