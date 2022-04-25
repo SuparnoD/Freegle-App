@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import WebView from 'react-native-webview'
 
 const TermsScreen = () => {
   return (
-    <View>
-      <Text>TermsScreen</Text>
-    </View>
+    <WebView source={{ uri: "https://www.ilovefreegle.org/terms" }} />
   )
 }
 

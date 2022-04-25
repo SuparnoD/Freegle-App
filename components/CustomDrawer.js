@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, View, Dimensions } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Linking,
+} from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -36,11 +43,46 @@ const CustomDrawer = (props, { navigation }) => {
           >
             About
           </Text>
-          <Text style={styles.subNav}>Terms</Text>
-          <Text style={styles.subNav}>Privacy</Text>
-          <Text style={styles.subNav}>Disclaimer</Text>
-          <Text style={styles.subNav}>Donate</Text>
-          <Text style={styles.subNav}>Contact</Text>
+          <Text
+            style={styles.subNav}
+            onPress={() => {
+              props.navigation.navigate("TermsScreen");
+            }}
+          >
+            Terms
+          </Text>
+          <Text
+            style={styles.subNav}
+            onPress={() => {
+              props.navigation.navigate("PrivacyScreen");
+            }}
+          >
+            Privacy
+          </Text>
+          <Text
+            style={styles.subNav}
+            onPress={() => {
+              props.navigation.navigate("DisclaimerScreen");
+            }}
+          >
+            Disclaimer
+          </Text>
+          <Text
+            style={styles.subNav}
+            onPress={() => {
+              props.navigation.navigate("DonateScreen");
+            }}
+          >
+            Donate
+          </Text>
+          <Text
+            style={styles.subNav}
+            onPress={() => {
+              props.navigation.navigate("ContactScreen");
+            }}
+          >
+            Contact
+          </Text>
         </View>
       </DrawerContentScrollView>
       <View style={{ bottom: 10 }}>

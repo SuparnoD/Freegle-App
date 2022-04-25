@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import WebView from 'react-native-webview'
 
 const PrivacyScreen = () => {
   return (
-    <View>
-      <Text>PrivacyScreen</Text>
-    </View>
+    <WebView source={{ uri: "https://www.ilovefreegle.org/privacy" }} />
   )
 }
 

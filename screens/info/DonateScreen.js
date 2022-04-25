@@ -1,14 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import WebView from "react-native-webview";
 
 const DonateScreen = () => {
   return (
-    <View>
-      <Text>DonateScreen</Text>
-    </View>
-  )
-}
+    <WebView source={{ uri: "https://www.ilovefreegle.org/donate" }} />
+  );
+};
 
-export default DonateScreen
+export default DonateScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
