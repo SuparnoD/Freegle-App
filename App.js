@@ -32,6 +32,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./constants/Colors";
 import CustomDrawer from "./components/CustomDrawer";
 import AboutScreen from "./screens/info/AboutScreen";
+import ContactScreen from "./screens/info/ContactScreen";
+import DisclaimerScreen from "./screens/info/DisclaimerScreen";
+import DonateScreen from "./screens/info/DonateScreen";
+import PrivacyScreen from "./screens/info/PrivacyScreen";
+import TermsScreen from "./screens/info/TermsScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -102,6 +107,31 @@ function AuthStack() {
         name="AboutScreen"
         component={AboutScreen}
         options={{ title: "", headerTransparent: false, headerBackVisible: false }}
+      />
+      <Stack.Screen
+        name="ContactScreen"
+        component={ContactScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DisclaimerScreen"
+        component={DisclaimerScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DonateScreen"
+        component={DonateScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PrivacyScreen"
+        component={PrivacyScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TermsScreen"
+        component={TermsScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
@@ -358,6 +388,7 @@ function Navigation() {
           name="ChatRoomScreen"
           component={ChatRoomScreen}
           options={{
+            drawerItemStyle: { height: 0 },
             headerShown: false
           }}
         />
