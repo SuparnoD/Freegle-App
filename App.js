@@ -200,6 +200,31 @@ function AuthenticatedStack() {
         options={{ title: "", headerTransparent: false, headerBackVisible: false
        }}
       />
+      <Stack.Screen
+        name="ContactScreen"
+        component={ContactScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DisclaimerScreen"
+        component={DisclaimerScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DonateScreen"
+        component={DonateScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PrivacyScreen"
+        component={PrivacyScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="TermsScreen"
+        component={TermsScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }
